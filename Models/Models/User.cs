@@ -12,11 +12,12 @@ namespace AlumniNetworkAPI.Models.Models
         public string FunFact { get; set; }
         [Url]
         public string PictureUrl { get; set; }
+        public IList<EventUser> EventUsers { get; set; }
         public ICollection<Event> Events { get; set; }
         public ICollection<Group> Groups { get; set; }
         public ICollection<Topic> Topics { get; set; }
         public ICollection<Post> Posts { get; set; }
-        public ICollection<Rsvp> Rsvps { get;}
+        public ICollection<Rsvp> Rsvps { get; set; }
 
     }
 }
