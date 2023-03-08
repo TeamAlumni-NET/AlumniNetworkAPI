@@ -44,6 +44,142 @@ namespace AlumniNetworkAPI.Models
                 .WithMany(e => e.EventUsers)
                 .HasForeignKey(eu => eu.EventId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasData(
+                    new User
+                    {
+                        Id = 1,
+                        FirstName = "Jaska",
+                        LastName = "Jokunen",
+                        Status = "Working at Experis",
+                        Bio = "I am a proactive worker!",
+                        FunFact = "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.",
+                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839"
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        FirstName = "Emma",
+                        LastName = "Jokunen",
+                        Status = "Working at Noroff",
+                        Bio = "I am a happy worker!",
+                        FunFact = "Liechtenstein and Uzbekistan are the only doubly landlocked countries.",
+                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840"
+                    }
+                    );
+            modelBuilder.Entity<Group>()
+                .HasData(
+                    new Group
+                    {
+                        Id = 1,
+                        Name = "Experis workers",
+                        Description = "Experis employees",
+                        IsPrivate = false
+                    },
+                    new Group
+                    {
+                        Id = 2,
+                        Name = "Noroff teachers",
+                        Description = "The amazing teachers of noroff.",
+                        IsPrivate = true
+                    }
+                );
+            modelBuilder.Entity<Topic>()
+                .HasData(
+                    new Topic
+                    {
+                        Id = 1,
+                        Name = "Afterwork",
+                        Description = "In this topic we don't talk about work, only fun."
+                    },
+                    new Topic
+                    {
+                        Id = 2,
+                        Name = "Sports",
+                        Description = "In this topic we don't talk about work, only sports."
+                    }
+                );
+            modelBuilder.Entity<Event>()
+                .HasData(
+                new Event
+                {
+                    Id = 1,
+                    LastUpdated = DateTime.Now,
+                    Name = "Afterwork",
+                    Description = "Friday night fun. At linnanmäki",
+                    AllowGuests = true,
+                    StartTime = new DateTime(2023, 7, 5, 17, 30, 00),
+                    EndTime = new DateTime(2023, 7, 5, 21, 00, 00),
+                    EventCreatorId = 1
+                },
+                new Event
+                {
+                    Id = 2,
+                    LastUpdated = DateTime.Now,
+                    Name = "Noroff summer bootcamp",
+                    Description = "Noroffs teachers bootcamp",
+                    AllowGuests = true,
+                    StartTime = new DateTime(2023, 6, 8, 17, 30, 00),
+                    EndTime = new DateTime(2023, 6, 10, 21, 00, 00),
+                    EventCreatorId = 2
+                }
+                );
+            modelBuilder.Entity<Post>()
+                .HasData(
+                    new Post
+                    {
+                        Id = 1,
+                        TimeStamp = DateTime.Now,
+                        Title = "Afterwork coming soon!",
+                        Content = "My very first content.",
+                        UserId = 1,
+                        TopicId = 1,
+                        GroupId = 1,
+                        EventId = 1
+                    },
+                    new Post
+                    {
+                        Id = 2,
+                        TimeStamp = DateTime.Now,
+                        Content = "Lets GOO!",
+                        UserId = 1,
+                        TopicId = 1,
+                        GroupId = 1,
+                        EventId = 1,
+                        ParentPostId = 1
+                    },
+                     new Post
+                     {
+                         Id = 3,
+                         TimeStamp = DateTime.Now,
+                         Title = "Bootcamp coming soon",
+                         Content = "My very first content.",
+                         UserId = 2,
+                         TopicId = 2,
+                         GroupId = 2,
+                         EventId = 2
+                     }
+                );
+            modelBuilder.Entity<Rsvp>()
+                .HasData(
+                new Rsvp
+                {
+                    Id = 1,
+                    LastUpdated = DateTime.Now,
+                    GuestCount = 1,
+                    UserId = 1,
+                    EventId = 1,
+                },
+                 new Rsvp
+                 {
+                     Id = 2,
+                     LastUpdated = DateTime.Now,
+                     GuestCount = 1,
+                     UserId = 2,
+                     EventId = 2,
+                 }
+                );
         }
     }
 }

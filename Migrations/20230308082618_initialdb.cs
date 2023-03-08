@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace AlumniNetworkAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class initialdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,7 +48,8 @@ namespace AlumniNetworkAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FunFact = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -276,6 +279,65 @@ namespace AlumniNetworkAPI.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Groups",
+                columns: new[] { "Id", "Description", "IsPrivate", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Experis employees", false, "Experis workers" },
+                    { 2, "The amazing teachers of noroff.", true, "Noroff teachers" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "In this topic we don't talk about work, only fun.", "Afterwork" },
+                    { 2, "In this topic we don't talk about work, only sports.", "Sports" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Bio", "FirstName", "FunFact", "LastName", "PictureUrl", "Status" },
+                values: new object[,]
+                {
+                    { 1, "I am a proactive worker!", "Jaska", "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839", "Working at Experis" },
+                    { 2, "I am a happy worker!", "Emma", "Liechtenstein and Uzbekistan are the only doubly landlocked countries.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working at Noroff" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "AllowGuests", "Description", "EndTime", "EventCreatorId", "LastUpdated", "Name", "StartTime" },
+                values: new object[,]
+                {
+                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(3987), "Afterwork", new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4033), "Noroff summer bootcamp", new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "My very first content.", 1, 1, null, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4047), "Afterwork coming soon!", 1, 1 },
+                    { 3, "My very first content.", 2, 2, null, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4052), "Bootcamp coming soon", 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Rsvps",
+                columns: new[] { "Id", "EventId", "GuestCount", "LastUpdated", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4065), 1 },
+                    { 2, 2, 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4067), 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
+                values: new object[] { 2, "Lets GOO!", 1, 1, 1, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4049), null, 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventGroup_GroupsId",

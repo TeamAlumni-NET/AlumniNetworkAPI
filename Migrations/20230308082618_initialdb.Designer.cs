@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlumniNetworkAPI.Migrations
 {
     [DbContext(typeof(AlumniNetworkDBContext))]
-    [Migration("20230307133713_InitialDb")]
-    partial class InitialDb
+    [Migration("20230308082618_initialdb")]
+    partial class initialdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,30 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("EventCreatorId");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AllowGuests = true,
+                            Description = "Friday night fun. At linnanmäki",
+                            EndTime = new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventCreatorId = 1,
+                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(3987),
+                            Name = "Afterwork",
+                            StartTime = new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AllowGuests = true,
+                            Description = "Noroffs teachers bootcamp",
+                            EndTime = new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventCreatorId = 2,
+                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4033),
+                            Name = "Noroff summer bootcamp",
+                            StartTime = new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.EventUser", b =>
@@ -101,6 +125,22 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Experis employees",
+                            IsPrivate = false,
+                            Name = "Experis workers"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "The amazing teachers of noroff.",
+                            IsPrivate = true,
+                            Name = "Noroff teachers"
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.Post", b =>
@@ -154,6 +194,41 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "My very first content.",
+                            EventId = 1,
+                            GroupId = 1,
+                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4047),
+                            Title = "Afterwork coming soon!",
+                            TopicId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Lets GOO!",
+                            EventId = 1,
+                            GroupId = 1,
+                            ParentPostId = 1,
+                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4049),
+                            TopicId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "My very first content.",
+                            EventId = 2,
+                            GroupId = 2,
+                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4052),
+                            Title = "Bootcamp coming soon",
+                            TopicId = 2,
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.Rsvp", b =>
@@ -183,6 +258,24 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Rsvps");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EventId = 1,
+                            GuestCount = 1,
+                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4065),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EventId = 2,
+                            GuestCount = 1,
+                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4067),
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.Topic", b =>
@@ -205,6 +298,20 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "In this topic we don't talk about work, only fun.",
+                            Name = "Afterwork"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "In this topic we don't talk about work, only sports.",
+                            Name = "Sports"
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.User", b =>
@@ -219,14 +326,18 @@ namespace AlumniNetworkAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("FunFact")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
@@ -239,6 +350,28 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Bio = "I am a proactive worker!",
+                            FirstName = "Jaska",
+                            FunFact = "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.",
+                            LastName = "Jokunen",
+                            PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839",
+                            Status = "Working at Experis"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Bio = "I am a happy worker!",
+                            FirstName = "Emma",
+                            FunFact = "Liechtenstein and Uzbekistan are the only doubly landlocked countries.",
+                            LastName = "Jokunen",
+                            PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840",
+                            Status = "Working at Noroff"
+                        });
                 });
 
             modelBuilder.Entity("EventGroup", b =>
