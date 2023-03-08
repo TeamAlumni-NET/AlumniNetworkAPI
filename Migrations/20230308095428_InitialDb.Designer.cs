@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlumniNetworkAPI.Migrations
 {
     [DbContext(typeof(AlumniNetworkDBContext))]
-    [Migration("20230308082618_initialdb")]
-    partial class initialdb
+    [Migration("20230308095428_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Friday night fun. At linnanmäki",
                             EndTime = new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(3987),
+                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9734),
                             Name = "Afterwork",
                             StartTime = new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -81,7 +81,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Noroffs teachers bootcamp",
                             EndTime = new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 2,
-                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4033),
+                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9777),
                             Name = "Noroff summer bootcamp",
                             StartTime = new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -100,6 +100,28 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            EventId = 1
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            EventId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            EventId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            EventId = 2
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.Group", b =>
@@ -202,7 +224,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "My very first content.",
                             EventId = 1,
                             GroupId = 1,
-                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4047),
+                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9800),
                             Title = "Afterwork coming soon!",
                             TopicId = 1,
                             UserId = 1
@@ -214,7 +236,7 @@ namespace AlumniNetworkAPI.Migrations
                             EventId = 1,
                             GroupId = 1,
                             ParentPostId = 1,
-                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4049),
+                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9804),
                             TopicId = 1,
                             UserId = 1
                         },
@@ -224,7 +246,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "My very first content.",
                             EventId = 2,
                             GroupId = 2,
-                            TimeStamp = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4052),
+                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9807),
                             Title = "Bootcamp coming soon",
                             TopicId = 2,
                             UserId = 2
@@ -265,7 +287,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 1,
                             EventId = 1,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4065),
+                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9827),
                             UserId = 1
                         },
                         new
@@ -273,7 +295,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 2,
                             EventId = 2,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4067),
+                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9830),
                             UserId = 2
                         });
                 });
@@ -371,37 +393,71 @@ namespace AlumniNetworkAPI.Migrations
                             LastName = "Jokunen",
                             PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840",
                             Status = "Working at Noroff"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Bio = "I love computers!",
+                            FirstName = "Seamus",
+                            FunFact = "The sky is blue",
+                            LastName = "Smith",
+                            PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840",
+                            Status = "Working with IBM"
                         });
                 });
 
             modelBuilder.Entity("EventGroup", b =>
                 {
-                    b.Property<int>("EventsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("GroupsId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventsId", "GroupsId");
+                    b.Property<int>("EventsId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("GroupsId");
+                    b.HasKey("GroupsId", "EventsId");
+
+                    b.HasIndex("EventsId");
 
                     b.ToTable("EventGroup");
+
+                    b.HasData(
+                        new
+                        {
+                            GroupsId = 1,
+                            EventsId = 1
+                        },
+                        new
+                        {
+                            GroupsId = 2,
+                            EventsId = 2
+                        });
                 });
 
             modelBuilder.Entity("EventTopic", b =>
                 {
-                    b.Property<int>("EventsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TopicsId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventsId", "TopicsId");
+                    b.Property<int>("EventsId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TopicsId");
+                    b.HasKey("TopicsId", "EventsId");
+
+                    b.HasIndex("EventsId");
 
                     b.ToTable("EventTopic");
+
+                    b.HasData(
+                        new
+                        {
+                            TopicsId = 1,
+                            EventsId = 1
+                        },
+                        new
+                        {
+                            TopicsId = 2,
+                            EventsId = 2
+                        });
                 });
 
             modelBuilder.Entity("GroupUser", b =>
@@ -417,6 +473,28 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("GroupUser");
+
+                    b.HasData(
+                        new
+                        {
+                            GroupsId = 1,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            GroupsId = 1,
+                            UsersId = 3
+                        },
+                        new
+                        {
+                            GroupsId = 2,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            GroupsId = 2,
+                            UsersId = 3
+                        });
                 });
 
             modelBuilder.Entity("TopicUser", b =>
@@ -432,6 +510,28 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("TopicUser");
+
+                    b.HasData(
+                        new
+                        {
+                            TopicsId = 1,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            TopicsId = 1,
+                            UsersId = 3
+                        },
+                        new
+                        {
+                            TopicsId = 2,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            TopicsId = 2,
+                            UsersId = 3
+                        });
                 });
 
             modelBuilder.Entity("AlumniNetworkAPI.Models.Models.Event", b =>

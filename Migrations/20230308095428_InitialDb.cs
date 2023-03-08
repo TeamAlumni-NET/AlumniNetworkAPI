@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AlumniNetworkAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initialdb : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,12 +136,12 @@ namespace AlumniNetworkAPI.Migrations
                 name: "EventGroup",
                 columns: table => new
                 {
-                    EventsId = table.Column<int>(type: "int", nullable: false),
-                    GroupsId = table.Column<int>(type: "int", nullable: false)
+                    GroupsId = table.Column<int>(type: "int", nullable: false),
+                    EventsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventGroup", x => new { x.EventsId, x.GroupsId });
+                    table.PrimaryKey("PK_EventGroup", x => new { x.GroupsId, x.EventsId });
                     table.ForeignKey(
                         name: "FK_EventGroup_Events_EventsId",
                         column: x => x.EventsId,
@@ -160,12 +160,12 @@ namespace AlumniNetworkAPI.Migrations
                 name: "EventTopic",
                 columns: table => new
                 {
-                    EventsId = table.Column<int>(type: "int", nullable: false),
-                    TopicsId = table.Column<int>(type: "int", nullable: false)
+                    TopicsId = table.Column<int>(type: "int", nullable: false),
+                    EventsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventTopic", x => new { x.EventsId, x.TopicsId });
+                    table.PrimaryKey("PK_EventTopic", x => new { x.TopicsId, x.EventsId });
                     table.ForeignKey(
                         name: "FK_EventTopic_Events_EventsId",
                         column: x => x.EventsId,
@@ -304,7 +304,8 @@ namespace AlumniNetworkAPI.Migrations
                 values: new object[,]
                 {
                     { 1, "I am a proactive worker!", "Jaska", "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839", "Working at Experis" },
-                    { 2, "I am a happy worker!", "Emma", "Liechtenstein and Uzbekistan are the only doubly landlocked countries.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working at Noroff" }
+                    { 2, "I am a happy worker!", "Emma", "Liechtenstein and Uzbekistan are the only doubly landlocked countries.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working at Noroff" },
+                    { 3, "I love computers!", "Seamus", "The sky is blue", "Smith", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working with IBM" }
                 });
 
             migrationBuilder.InsertData(
@@ -312,8 +313,59 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "AllowGuests", "Description", "EndTime", "EventCreatorId", "LastUpdated", "Name", "StartTime" },
                 values: new object[,]
                 {
-                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(3987), "Afterwork", new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4033), "Noroff summer bootcamp", new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9734), "Afterwork", new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9777), "Noroff summer bootcamp", new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GroupUser",
+                columns: new[] { "GroupsId", "UsersId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 3 },
+                    { 2, 2 },
+                    { 2, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TopicUser",
+                columns: new[] { "TopicsId", "UsersId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 3 },
+                    { 2, 2 },
+                    { 2, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventGroup",
+                columns: new[] { "EventsId", "GroupsId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventTopic",
+                columns: new[] { "EventsId", "TopicsId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventUsers",
+                columns: new[] { "EventId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 },
+                    { 1, 3 },
+                    { 2, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -321,8 +373,8 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "My very first content.", 1, 1, null, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4047), "Afterwork coming soon!", 1, 1 },
-                    { 3, "My very first content.", 2, 2, null, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4052), "Bootcamp coming soon", 2, 2 }
+                    { 1, "My very first content.", 1, 1, null, null, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9800), "Afterwork coming soon!", 1, 1 },
+                    { 3, "My very first content.", 2, 2, null, null, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9807), "Bootcamp coming soon", 2, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -330,19 +382,19 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "EventId", "GuestCount", "LastUpdated", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4065), 1 },
-                    { 2, 2, 1, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4067), 2 }
+                    { 1, 1, 1, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9827), 1 },
+                    { 2, 2, 1, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9830), 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
-                values: new object[] { 2, "Lets GOO!", 1, 1, 1, null, new DateTime(2023, 3, 8, 10, 26, 18, 229, DateTimeKind.Local).AddTicks(4049), null, 1, 1 });
+                values: new object[] { 2, "Lets GOO!", 1, 1, 1, null, new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9804), null, 1, 1 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventGroup_GroupsId",
+                name: "IX_EventGroup_EventsId",
                 table: "EventGroup",
-                column: "GroupsId");
+                column: "EventsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_EventCreatorId",
@@ -350,9 +402,9 @@ namespace AlumniNetworkAPI.Migrations
                 column: "EventCreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventTopic_TopicsId",
+                name: "IX_EventTopic_EventsId",
                 table: "EventTopic",
-                column: "TopicsId");
+                column: "EventsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventUsers_EventId",

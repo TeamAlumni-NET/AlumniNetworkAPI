@@ -19,7 +19,8 @@ namespace AlumniNetworkAPI.Models
         public DbSet<EventUser> EventUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {   
+            //DeleteBehavior configuration
             modelBuilder.Entity<Rsvp>()
                 .HasOne<User>(u => u.User)
                 .WithMany(r => r.Rsvps)
@@ -44,7 +45,7 @@ namespace AlumniNetworkAPI.Models
                 .WithMany(e => e.EventUsers)
                 .HasForeignKey(eu => eu.EventId)
                 .OnDelete(DeleteBehavior.NoAction);
-
+            //Dummy data to DB
             modelBuilder.Entity<User>()
                 .HasData(
                     new User
@@ -65,6 +66,16 @@ namespace AlumniNetworkAPI.Models
                         Status = "Working at Noroff",
                         Bio = "I am a happy worker!",
                         FunFact = "Liechtenstein and Uzbekistan are the only doubly landlocked countries.",
+                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840"
+                    },
+                    new User
+                    {
+                        Id = 3,
+                        FirstName = "Seamus",
+                        LastName = "Smith",
+                        Status = "Working with IBM",
+                        Bio = "I love computers!",
+                        FunFact = "The sky is blue",
                         PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840"
                     }
                     );
@@ -180,6 +191,107 @@ namespace AlumniNetworkAPI.Models
                      EventId = 2,
                  }
                 );
+            modelBuilder.Entity<EventUser>()
+                .HasData(
+                new EventUser
+                {
+                    EventId= 1,
+                    UserId= 1
+                },
+                 new EventUser
+                 {
+                     EventId = 1,
+                     UserId = 3
+                 },
+                  new EventUser
+                  {
+                      EventId = 2,
+                      UserId = 2
+                  },
+                   new EventUser
+                   {
+                       EventId = 2,
+                       UserId = 3
+                   }
+                );
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Topics)
+                .WithMany(x => x.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                "TopicUser",
+                l => l.HasOne<Topic>().WithMany().HasForeignKey("TopicsId"),
+                r => r.HasOne<User>().WithMany().HasForeignKey("UsersId"),
+                je =>
+                {
+                    je.HasKey("TopicsId", "UsersId");
+                    je.HasData(
+                        new { TopicsId = 1, UsersId = 1 },
+                        new { TopicsId = 1, UsersId = 3 },
+                        new { TopicsId = 2, UsersId = 2 },
+                        new { TopicsId = 2, UsersId = 3 }
+                        );
+
+                }
+                );
+            modelBuilder.Entity<Event>()
+                .HasMany(x => x.Topics)
+                .WithMany(x => x.Events)
+                .UsingEntity<Dictionary<string, object>>(
+                "EventTopic",
+                l => l.HasOne<Topic>().WithMany().HasForeignKey("TopicsId"),
+                r => r.HasOne<Event>().WithMany().HasForeignKey("EventsId"),
+                je =>
+                {
+                    je.HasKey("TopicsId", "EventsId");
+                    je.HasData(
+                        new { TopicsId = 1, EventsId = 1 },
+                        new { TopicsId = 2, EventsId = 2 }
+                        
+                        );
+
+                }
+                );
+            modelBuilder.Entity<Event>()
+                .HasMany(x => x.Groups)
+                .WithMany(x => x.Events)
+                .UsingEntity<Dictionary<string, object>>(
+                "EventGroup",
+                l => l.HasOne<Group>().WithMany().HasForeignKey("GroupsId"),
+                r => r.HasOne<Event>().WithMany().HasForeignKey("EventsId"),
+                je =>
+                {
+                    je.HasKey("GroupsId", "EventsId");
+                    je.HasData(
+                        new { GroupsId = 1, EventsId = 1 },
+                        new { GroupsId = 2, EventsId = 2 }
+
+                        );
+
+                }
+                );
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Groups)
+                .WithMany(x => x.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                "GroupUser",
+                l => l.HasOne<Group>().WithMany().HasForeignKey("GroupsId"),
+                r => r.HasOne<User>().WithMany().HasForeignKey("UsersId"),
+                je =>
+                {
+                    je.HasKey("GroupsId", "UsersId");
+                    je.HasData(
+                        new { GroupsId = 1, UsersId = 1 },
+                        new { GroupsId = 1, UsersId = 3 },
+                        new { GroupsId = 2, UsersId = 2 },
+                        new { GroupsId = 2, UsersId = 3 }
+                        );
+
+                }
+                );
+
+
+
+
         }
     }
 }
