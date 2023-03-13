@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
-using AlumniNetworkAPI.Models.DTOs.User;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AutoMapper;
 using AlumniNetworkAPI.Services.Users;
 

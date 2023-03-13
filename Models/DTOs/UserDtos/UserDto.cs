@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlumniNetworkAPI.Models.DTOs.User
+namespace AlumniNetworkAPI.Models.DTOs.UserDtos
 {
     public class UserDto
     {
