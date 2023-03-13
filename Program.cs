@@ -1,4 +1,5 @@
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Services.Events;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,10 @@ builder.Services.AddDbContext<AlumniNetworkDBContext>(options => options.UseSqlS
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IEventService, EventService>();
+
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 
 var app = builder.Build();
