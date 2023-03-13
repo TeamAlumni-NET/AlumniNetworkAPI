@@ -1,5 +1,6 @@
 using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Services.Events;
+using AlumniNetworkAPI.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();

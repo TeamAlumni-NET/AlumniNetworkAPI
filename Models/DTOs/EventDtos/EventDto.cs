@@ -12,7 +12,7 @@ namespace AlumniNetworkAPI.Models.DTOs.EventDtos
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int EventCreatorId { get; set; }
-        public User? EventCreator { get; set; }
+        
         public List<int>? Topics { get; set; }
         public List<int>? EventUsers { get; set; }
         public List<int>? Posts { get; set; }
