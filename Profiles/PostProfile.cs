@@ -1,4 +1,4 @@
-﻿using AlumniNetworkAPI.Models.DTOs.Post;
+﻿using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 

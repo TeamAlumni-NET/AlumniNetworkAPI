@@ -1,6 +1,6 @@
 ﻿using AlumniNetworkAPI.Models.Models;
 
-namespace AlumniNetworkAPI.Models.DTOs.Post
+namespace AlumniNetworkAPI.Models.DTOs.PostDtos
 {
     public class PostDto
     {

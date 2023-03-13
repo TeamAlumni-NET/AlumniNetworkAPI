@@ -1,4 +1,4 @@
-﻿using AlumniNetworkAPI.Models.DTOs.Topic;
+﻿using AlumniNetworkAPI.Models.DTOs.TopicDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 

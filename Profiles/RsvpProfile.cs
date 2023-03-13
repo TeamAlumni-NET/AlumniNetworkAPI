@@ -1,4 +1,4 @@
-﻿using AlumniNetworkAPI.Models.DTOs.Rsvp;
+﻿using AlumniNetworkAPI.Models.DTOs.RsvpDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 
