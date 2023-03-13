@@ -1,11 +1,17 @@
 ﻿using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlumniNetworkAPI.Services.Users
 {
     public class UserService : IUserService
     {
         private readonly AlumniNetworkDBContext? _dbContext;
+
+        public UserService(AlumniNetworkDBContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public Task<User> Create(User entity)
         {
             throw new NotImplementedException();
@@ -21,9 +27,14 @@ namespace AlumniNetworkAPI.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<User> GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                throw new NotImplementedException();
+            }
+            return user;
         }
 
         public Task<User> Update(User entity)
