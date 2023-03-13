@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.Models;
+using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
@@ -6,7 +8,7 @@ namespace AlumniNetworkAPI.Profiles
     {
         public EventProfile() 
         {
-            
+            CreateMap<EventDto, Event>().ReverseMap();
         }
     }
 }
