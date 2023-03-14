@@ -1,4 +1,13 @@
-﻿namespace AlumniNetworkAPI.Controllers
+﻿using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
+using AlumniNetworkAPI.Models.Models;
+using AlumniNetworkAPI.Services.Users;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

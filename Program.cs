@@ -3,7 +3,9 @@ using AlumniNetworkAPI.Services.Events;
 using AlumniNetworkAPI.Services.EventUsers;
 using AlumniNetworkAPI.Services.Groups;
 using AlumniNetworkAPI.Services.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 

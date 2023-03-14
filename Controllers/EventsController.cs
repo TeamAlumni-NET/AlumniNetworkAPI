@@ -1,6 +1,8 @@
 ﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Events;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
