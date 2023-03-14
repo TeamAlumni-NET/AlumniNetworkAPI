@@ -7,6 +7,17 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string myCorsPolicy = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(name: myCorsPolicy,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -21,16 +32,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-string myCorsPolicy = "_myAllowSpecificOrigins";
 
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy(name: myCorsPolicy,
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
-        });
-});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
@@ -69,6 +71,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+app.UseCors(myCorsPolicy);
 app.UseAuthorization();
 
 app.MapControllers();
