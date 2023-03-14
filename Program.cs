@@ -1,5 +1,7 @@
 using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Services.Events;
+using AlumniNetworkAPI.Services.EventUsers;
+using AlumniNetworkAPI.Services.Groups;
 using AlumniNetworkAPI.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<IEventUserService, EventUserService>();
+builder.Services.AddTransient<IGroupService, GroupService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

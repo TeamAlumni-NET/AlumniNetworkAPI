@@ -1,4 +1,6 @@
-﻿namespace AlumniNetworkAPI.Models.DTOs.EventUserDtos
+﻿using AlumniNetworkAPI.Models.Models;
+
+namespace AlumniNetworkAPI.Models.DTOs.EventUserDtos
 {
     public class EventUserDto
     {
