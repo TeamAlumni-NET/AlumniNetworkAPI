@@ -11,6 +11,8 @@ using AlumniNetworkAPI.Services.Events;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using AlumniNetworkAPI.Exceptions;
 using System.Net;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AutoMapper;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -19,17 +21,19 @@ namespace AlumniNetworkAPI.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventService _eventService;
+        private readonly IMapper _mapper;
 
-        public EventsController(IEventService eventService)
+        public EventsController(IEventService eventService, IMapper mapper)
         {
             _eventService = eventService;
+            _mapper = mapper;
         }
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
         {
-            return Ok(await _eventService.GetAll());
+            return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
         }
 
         // GET: api/Events/5

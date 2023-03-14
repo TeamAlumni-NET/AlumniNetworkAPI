@@ -14,6 +14,7 @@ namespace AlumniNetworkAPI.Models.DTOs.EventDtos
         public int EventCreatorId { get; set; }
         
         public List<int>? Topics { get; set; }
+
         public List<int>? EventUsers { get; set; }
         public List<int>? Posts { get; set; }
         public List<int>? Rsvps { get; set; }
