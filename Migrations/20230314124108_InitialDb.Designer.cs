@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlumniNetworkAPI.Migrations
 {
     [DbContext(typeof(AlumniNetworkDBContext))]
-    [Migration("20230308095428_InitialDb")]
+    [Migration("20230314124108_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -70,7 +70,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Friday night fun. At linnanmäki",
                             EndTime = new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9734),
+                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5252),
                             Name = "Afterwork",
                             StartTime = new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -81,7 +81,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Noroffs teachers bootcamp",
                             EndTime = new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 2,
-                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9777),
+                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5317),
                             Name = "Noroff summer bootcamp",
                             StartTime = new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -224,7 +224,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "My very first content.",
                             EventId = 1,
                             GroupId = 1,
-                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9800),
+                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5339),
                             Title = "Afterwork coming soon!",
                             TopicId = 1,
                             UserId = 1
@@ -236,7 +236,7 @@ namespace AlumniNetworkAPI.Migrations
                             EventId = 1,
                             GroupId = 1,
                             ParentPostId = 1,
-                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9804),
+                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5344),
                             TopicId = 1,
                             UserId = 1
                         },
@@ -246,7 +246,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "My very first content.",
                             EventId = 2,
                             GroupId = 2,
-                            TimeStamp = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9807),
+                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5349),
                             Title = "Bootcamp coming soon",
                             TopicId = 2,
                             UserId = 2
@@ -287,7 +287,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 1,
                             EventId = 1,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9827),
+                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5368),
                             UserId = 1
                         },
                         new
@@ -295,7 +295,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 2,
                             EventId = 2,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 8, 11, 54, 28, 291, DateTimeKind.Local).AddTicks(9830),
+                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5372),
                             UserId = 2
                         });
                 });
@@ -345,16 +345,13 @@ namespace AlumniNetworkAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FunFact")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -362,12 +359,15 @@ namespace AlumniNetworkAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -382,7 +382,8 @@ namespace AlumniNetworkAPI.Migrations
                             FunFact = "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.",
                             LastName = "Jokunen",
                             PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839",
-                            Status = "Working at Experis"
+                            Status = "Working at Experis",
+                            Username = "JaskaMan"
                         },
                         new
                         {
@@ -392,7 +393,8 @@ namespace AlumniNetworkAPI.Migrations
                             FunFact = "Liechtenstein and Uzbekistan are the only doubly landlocked countries.",
                             LastName = "Jokunen",
                             PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840",
-                            Status = "Working at Noroff"
+                            Status = "Working at Noroff",
+                            Username = "EmmAA"
                         },
                         new
                         {
@@ -402,7 +404,8 @@ namespace AlumniNetworkAPI.Migrations
                             FunFact = "The sky is blue",
                             LastName = "Smith",
                             PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840",
-                            Status = "Working with IBM"
+                            Status = "Working with IBM",
+                            Username = "seamass"
                         });
                 });
 

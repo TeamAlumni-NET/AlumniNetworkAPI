@@ -19,7 +19,7 @@ namespace AlumniNetworkAPI.Models
         public DbSet<EventUser> EventUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
+        {
             //DeleteBehavior configuration
             modelBuilder.Entity<Rsvp>()
                 .HasOne<User>(u => u.User)
@@ -51,6 +51,7 @@ namespace AlumniNetworkAPI.Models
                     new User
                     {
                         Id = 1,
+                        Username = "JaskaMan",
                         FirstName = "Jaska",
                         LastName = "Jokunen",
                         Status = "Working at Experis",
@@ -61,6 +62,7 @@ namespace AlumniNetworkAPI.Models
                     new User
                     {
                         Id = 2,
+                        Username = "EmmAA",
                         FirstName = "Emma",
                         LastName = "Jokunen",
                         Status = "Working at Noroff",
@@ -71,6 +73,7 @@ namespace AlumniNetworkAPI.Models
                     new User
                     {
                         Id = 3,
+                        Username = "seamass",
                         FirstName = "Seamus",
                         LastName = "Smith",
                         Status = "Working with IBM",
@@ -195,8 +198,8 @@ namespace AlumniNetworkAPI.Models
                 .HasData(
                 new EventUser
                 {
-                    EventId= 1,
-                    UserId= 1
+                    EventId = 1,
+                    UserId = 1
                 },
                  new EventUser
                  {
@@ -246,7 +249,7 @@ namespace AlumniNetworkAPI.Models
                     je.HasData(
                         new { TopicsId = 1, EventsId = 1 },
                         new { TopicsId = 2, EventsId = 2 }
-                        
+
                         );
 
                 }
