@@ -1,3 +1,10 @@
+using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Services.Events;
+using AlumniNetworkAPI.Services.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
