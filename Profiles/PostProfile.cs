@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.Models;
+using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
@@ -6,7 +8,7 @@ namespace AlumniNetworkAPI.Profiles
     {
         public PostProfile() 
         { 
-            
+            CreateMap<PostDto, Post>().ReverseMap();
         }
     }
 }

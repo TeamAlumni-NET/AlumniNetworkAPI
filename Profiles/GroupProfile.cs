@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AlumniNetworkAPI.Models.DTOs.GroupDtos;
+using AlumniNetworkAPI.Models.Models;
+using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
@@ -6,7 +8,7 @@ namespace AlumniNetworkAPI.Profiles
     {
         public GroupProfile() 
         {
-            
+            CreateMap<GroupDto, Group>().ReverseMap();
         }
     }
 }

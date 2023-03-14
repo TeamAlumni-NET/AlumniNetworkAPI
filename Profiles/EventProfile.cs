@@ -16,6 +16,7 @@ namespace AlumniNetworkAPI.Profiles
                 .ForMember(dto => dto.Groups, options =>
                 options.MapFrom(groupDomain => groupDomain.Groups.Select(group => $"{group.Id}").ToList()));
 
+            CreateMap<EventDto, Event>().ReverseMap();
         }
     }
 }

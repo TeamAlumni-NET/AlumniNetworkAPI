@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Events;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using AlumniNetworkAPI.Exceptions;
-using System.Net;
-using AlumniNetworkAPI.Models.DTOs.EventDtos;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlumniNetworkAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
@@ -80,7 +71,7 @@ namespace AlumniNetworkAPI.Controllers
             {
                 await _eventService.DeleteById(id);
             }
-            catch(EventNotFoundException ex)
+            catch (EventNotFoundException ex)
             {
                 return NotFound(new ProblemDetails
                 {
@@ -131,5 +122,5 @@ namespace AlumniNetworkAPI.Controllers
 
             return NoContent();
         }
-       }
+    }
 }
