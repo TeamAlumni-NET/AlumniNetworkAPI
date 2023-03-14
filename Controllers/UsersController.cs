@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.Models;
-using AlumniNetworkAPI.Models.DTOs.UserDtos;
-using AutoMapper;
-using AlumniNetworkAPI.Services.Users;
-
-namespace AlumniNetworkAPI.Controllers
+﻿namespace AlumniNetworkAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
