@@ -1,21 +1,19 @@
-﻿using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace AlumniNetworkAPI.Controllers
+﻿namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserService _userService;
         private readonly AlumniNetworkDBContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(AlumniNetworkDBContext context)
+        public UsersController(AlumniNetworkDBContext context, IMapper mapper, IUserService userService)
         {
             _context = context;
+            _mapper = mapper;
+            _userService = userService;
         }
 
         // GET: api/Users
@@ -31,16 +29,16 @@ namespace AlumniNetworkAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
+            try
             {
-                return NotFound();
+                return Ok(_mapper.Map<UserDto>(await _userService.GetById(id)));
             }
-
-            return user;
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         // PUT: api/Users/5

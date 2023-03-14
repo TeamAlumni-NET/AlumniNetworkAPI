@@ -1,6 +1,6 @@
 ﻿using AlumniNetworkAPI.Models.Models;
 
-namespace AlumniNetworkAPI.Models.DTOs.Rsvp
+namespace AlumniNetworkAPI.Models.DTOs.RsvpDtos
 {
     public class RsvpDto
     {

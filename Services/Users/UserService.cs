@@ -1,5 +1,6 @@
 ﻿using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlumniNetworkAPI.Services.Users
@@ -7,10 +8,12 @@ namespace AlumniNetworkAPI.Services.Users
     public class UserService : IUserService
     {
         private readonly AlumniNetworkDBContext? _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserService(AlumniNetworkDBContext dbContext)
+        public UserService(AlumniNetworkDBContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         public Task<User> Create(User entity)
         {
