@@ -25,9 +25,9 @@ namespace AlumniNetworkAPI.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.ToListAsync();
         }
 
         public async Task<User> GetById(int id)

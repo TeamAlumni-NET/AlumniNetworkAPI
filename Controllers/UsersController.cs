@@ -27,16 +27,16 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(await _userService.GetAll()));
         }
 
         /// <summary>
         /// Get single user by id.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>User by id</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
