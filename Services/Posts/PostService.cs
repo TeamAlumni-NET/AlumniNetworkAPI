@@ -41,6 +41,17 @@ namespace AlumniNetworkAPI.Services.Posts
             return entity;
         }
 
+        public async Task<Post> Update(Post entity)
+        {
+            var foundPost = await _dbContext.Posts.AnyAsync(x => x.Id == entity.Id);
+            if (entity == null)
+            {
+                throw new PostNotFoundException(entity.Id);
+            }
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
 
 
         public Task DeleteById(int id)
@@ -52,9 +63,6 @@ namespace AlumniNetworkAPI.Services.Posts
 
        
 
-        public Task<Post> Update(Post entity)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
