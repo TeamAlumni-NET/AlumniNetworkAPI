@@ -65,38 +65,33 @@ namespace AlumniNetworkAPI.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPut("{username}")]
+        public async Task<IActionResult> PatchUser(string username, UserEditDto userEditDto)
         {
-            if (id != user.Id)
+            if (username != userEditDto.UserName)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var user = _mapper.Map<User>(userEditDto);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _userService.PatchByUsername(user);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (UserNotFoundException ex)
             {
-                if (!UserExists(id))
+                return NotFound(new ProblemDetails
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    Detail = ex.Message
+                });
             }
 
             return NoContent();
         }
-
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+            // POST: api/Users
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            [HttpPost]
         public async Task<ActionResult<UserCreateDto>> PostUser(UserCreateDto user)
         {
             try
@@ -109,22 +104,6 @@ namespace AlumniNetworkAPI.Controllers
                 return Conflict(e.Message);
             }
 
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool UserExists(int id)
