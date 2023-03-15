@@ -4,6 +4,7 @@ namespace AlumniNetworkAPI.Models.DTOs.UserDtos
 {
     public class UserEditDto
     {
+        [Required]
         public int Id { get; set; }
         [Required]
        public string UserName { get; set; }

@@ -66,8 +66,8 @@ namespace AlumniNetworkAPI.Services.Users
 
         public async Task<User> PatchByUsername(User user)
         {
-            var foundUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
-            if (foundUser == null)
+            var foundUser = await _dbContext.Users.AnyAsync(x => x.Id == user.Id);
+            if (foundUser == false)
             {
                 throw new UserNotFoundException(user.Username);
             }
