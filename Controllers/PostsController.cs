@@ -1,5 +1,10 @@
-﻿using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
+using AlumniNetworkAPI.Services.Posts;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,95 +16,98 @@ namespace AlumniNetworkAPI.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly AlumniNetworkDBContext _context;
+        private readonly IPostService _postService;
+        private readonly IMapper _mapper;
 
-        public PostsController(AlumniNetworkDBContext context)
+        public PostsController(IPostService postService, IMapper mapper)
         {
-            _context = context;
+            _postService= postService;
+            _mapper= mapper;
+           
         }
 
         // GET: api/Posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
         {
-            return await _context.Posts.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
         }
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        public async Task<ActionResult<PostDto>> GetPost(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return post;
-        }
-
-        // PUT: api/Posts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, Post post)
-        {
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(post).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                return Ok(_mapper.Map<PostDto>(await _postService.GetById(id)));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (PostNotFoundException ex)
             {
-                if (!PostExists(id))
+                return NotFound(new ProblemDetails
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    Detail = ex.Message
+                });
             }
-
-            return NoContent();
         }
 
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
+        public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
-            _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
+            var post = _mapper.Map<Post>(createPostDto);
+            await _postService.Create(post);
 
-            return CreatedAtAction("GetPost", new { id = post.Id }, post);
+            var postDto = _mapper.Map<PostDto>(post);
+
+            return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto); 
         }
 
-        // DELETE: api/Posts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePost(int id)
+
+
+
+        // PUT: api/Posts/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPost(int id, EditPostDto editPostDto)
         {
-            var post = await _context.Posts.FindAsync(id);
-            if (post == null)
+            if (id != editPostDto.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _postService.Update(_mapper.Map<Post>(editPostDto));
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
 
             return NoContent();
         }
 
-        private bool PostExists(int id)
-        {
-            return _context.Posts.Any(e => e.Id == id);
-        }
+
+
+        //// DELETE: api/Posts/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeletePost(int id)
+        //{
+        //    var post = await _context.Posts.FindAsync(id);
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.Posts.Remove(post);
+        //    await _context.SaveChangesAsync();
+
+        //    return NoContent();
+        //}
+
     }
 }
