@@ -7,7 +7,8 @@ namespace AlumniNetworkAPI.Profiles
     public class PostProfile: Profile
     {
         public PostProfile() 
-        { 
+        {
+            CreateMap<CreatePostDto, Post>().ReverseMap();
             CreateMap<PostDto, Post>().ReverseMap();
         }
     }
