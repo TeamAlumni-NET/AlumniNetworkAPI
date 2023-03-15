@@ -1,4 +1,5 @@
-﻿using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Users;
@@ -49,6 +50,18 @@ namespace AlumniNetworkAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+        [HttpGet("user/{username}")]
+        public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
+        {
+            try
+            {
+                return Ok(_mapper.Map<UserDto>(await _userService.GetByUsername(username)));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -84,12 +97,18 @@ namespace AlumniNetworkAPI.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserCreateDto>> PostUser(UserCreateDto user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var newUser = _mapper.Map<User>(user);
+                return CreatedAtAction("PostUser", _mapper.Map<UserCreateDto>(await _userService.Create(newUser)));
+            }
+            catch (UserAlreadyExistsException e)
+            {
+                return Conflict(e.Message);
+            }
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
         // DELETE: api/Users/5
