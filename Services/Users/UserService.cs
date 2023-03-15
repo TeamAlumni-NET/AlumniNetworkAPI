@@ -1,4 +1,5 @@
-﻿using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +16,21 @@ namespace AlumniNetworkAPI.Services.Users
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public Task<User> Create(User entity)
+        public async Task<User> Create(User entity)
         {
-            throw new NotImplementedException();
+            var exists = await _dbContext.Users.Where(x => x.Username == entity.Username).ToListAsync();
+            foreach (var user in exists) { Console.WriteLine(user); }
+            if (exists.Any())
+            {
+                throw new UserAlreadyExistsException(entity.Username);
+            }
+            else
+            {
+                _dbContext.Users.Add(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return entity;
         }
 
         public Task DeleteById(int id)
@@ -33,6 +46,15 @@ namespace AlumniNetworkAPI.Services.Users
         public async Task<User> GetById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                throw new NotImplementedException();
+            }
+            return user;
+        }
+        public async Task<User> GetByUsername(string username)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
             if (user == null)
             {
                 throw new NotImplementedException();
