@@ -1,8 +1,10 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AlumniNetworkAPI.Services.Users
 {
@@ -38,9 +40,9 @@ namespace AlumniNetworkAPI.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.ToListAsync();
         }
 
         public async Task<User> GetById(int id)
@@ -59,6 +61,18 @@ namespace AlumniNetworkAPI.Services.Users
             {
                 throw new NotImplementedException();
             }
+            return user;
+        }
+
+        public async Task<User> PatchByUsername(User user)
+        {
+            var foundUser = await _dbContext.Users.AnyAsync(x => x.Id == user.Id);
+            if (foundUser == false)
+            {
+                throw new UserNotFoundException(user.Username);
+            }
+            _dbContext.Entry(user).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
             return user;
         }
 
