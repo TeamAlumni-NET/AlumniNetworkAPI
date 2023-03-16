@@ -20,7 +20,7 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<Group>>> GetGroups(string requestType)
         {
             return await _context.Groups.ToListAsync();
         }
