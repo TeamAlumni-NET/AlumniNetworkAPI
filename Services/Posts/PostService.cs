@@ -44,6 +44,7 @@ namespace AlumniNetworkAPI.Services.Posts
         public async Task<Post> Update(Post entity)
         {
             var foundPost = await _dbContext.Posts.AnyAsync(x => x.Id == entity.Id);
+
             if (foundPost == null)
             {
                 throw new PostNotFoundException(entity.Id);
