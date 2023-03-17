@@ -66,54 +66,50 @@ namespace AlumniNetworkAPI.Controllers
 
 
 
-        //// PUT: api/Posts/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutPost(int id, Post post)
-        //{
-        //    if (id != post.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        // PUT: api/Posts/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPost(int id, EditPostDto editPostDto)
+        {
+            if (id != editPostDto.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _postService.Entry(post).State = EntityState.Modified;
+            try
+            {
+                await _postService.Update(_mapper.Map<Post>(editPostDto));
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PostExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
 
 
-        //// DELETE: api/Posts/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeletePost(int id)
-        //{
-        //    var post = await _context.Posts.FindAsync(id);
-        //    if (post == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Posts.Remove(post);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
+        // DELETE: api/Posts/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            try
+            {
+                await _postService.DeleteById(id);
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+            return NoContent();
+        }
 
     }
 }
