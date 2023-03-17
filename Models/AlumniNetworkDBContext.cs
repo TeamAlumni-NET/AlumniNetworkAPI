@@ -291,10 +291,6 @@ namespace AlumniNetworkAPI.Models
 
                 }
                 );
-
-
-
-
         }
     }
 }
