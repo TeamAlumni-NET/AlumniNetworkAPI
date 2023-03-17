@@ -123,8 +123,8 @@ namespace AlumniNetworkAPI.Models
                     Name = "Afterwork",
                     Description = "Friday night fun. At linnanmäki",
                     AllowGuests = true,
-                    StartTime = new DateTime(2023, 7, 5, 17, 30, 00),
-                    EndTime = new DateTime(2023, 7, 5, 21, 00, 00),
+                    StartTime = new DateTime(2023, 3, 17, 17, 30, 00),
+                    EndTime = new DateTime(2023, 3, 17, 21, 00, 00),
                     EventCreatorId = 1
                 },
                 new Event
@@ -134,9 +134,19 @@ namespace AlumniNetworkAPI.Models
                     Name = "Noroff summer bootcamp",
                     Description = "Noroffs teachers bootcamp",
                     AllowGuests = true,
-                    StartTime = new DateTime(2023, 6, 8, 17, 30, 00),
-                    EndTime = new DateTime(2023, 6, 10, 21, 00, 00),
+                    StartTime = new DateTime(2023, 3, 31, 17, 30, 00),
+                    EndTime = new DateTime(2023, 4, 2, 21, 00, 00),
                     EventCreatorId = 2
+                },
+                new Event
+                {
+                    Id = 3,
+                    LastUpdated = DateTime.Now,
+                    Name = "Boargames!",
+                    Description = "Boardgame tuesday!",
+                    AllowGuests = true,
+                    StartTime = new DateTime(2023, 3, 21, 17, 30, 00),
+                    EventCreatorId = 3
                 }
                 );
             modelBuilder.Entity<Post>()
@@ -149,18 +159,14 @@ namespace AlumniNetworkAPI.Models
                         Content = "My very first content.",
                         UserId = 1,
                         TopicId = 1,
-                        GroupId = 1,
-                        EventId = 1
                     },
                     new Post
                     {
                         Id = 2,
                         TimeStamp = DateTime.Now,
                         Content = "Lets GOO!",
-                        UserId = 1,
+                        UserId = 3,
                         TopicId = 1,
-                        GroupId = 1,
-                        EventId = 1,
                         ParentPostId = 1
                     },
                      new Post
@@ -168,11 +174,72 @@ namespace AlumniNetworkAPI.Models
                          Id = 3,
                          TimeStamp = DateTime.Now,
                          Title = "Bootcamp coming soon",
-                         Content = "My very first content.",
+                         Content = "Get reafy to pack your bags!",
                          UserId = 2,
-                         TopicId = 2,
                          GroupId = 2,
+                     },
+                     new Post
+                     {
+                         Id = 4,
+                         TimeStamp = DateTime.Now,
+                         Content = "Does someone have trangia?",
+                         UserId = 3,
                          EventId = 2
+                     },
+                     new Post
+                     {
+                         Id = 5,
+                         TimeStamp = DateTime.Now,
+                         Title = "Boardgames",
+                         Content = "What boardgames people like to play?",
+                         UserId= 1,
+                         GroupId = 1,
+                     },
+                     new Post
+                     {
+                         Id = 6,
+                         TimeStamp = DateTime.Now,
+                         Content = "Ark Nova is the best!",
+                         UserId= 3,
+                         GroupId = 1,
+                         ParentPostId= 5,
+                     },
+                     new Post
+                     {
+                         Id = 7,
+                         TimeStamp = DateTime.Now,
+                         Content = "Is it one of the games in SM-competition of boardgames?",
+                         UserId = 1,
+                         GroupId = 1,
+                         ParentPostId = 5,
+                         TargetUserId= 3,
+                     },
+                     new Post
+                     {
+                         Id = 8,
+                         TimeStamp = DateTime.Now,
+                         Title = "Best language to teach?",
+                         Content = "What do your prefer?",
+                         UserId = 3,
+                         GroupId = 2,
+                     },
+                     new Post
+                     {
+                         Id = 9,
+                         TimeStamp = DateTime.Now,
+                         Content = "Me first Javascript!",
+                         UserId = 3,
+                         GroupId = 2,
+                         ParentPostId = 8,
+                     },
+                     new Post
+                     {
+                         Id = 10,
+                         TimeStamp = DateTime.Now,
+                         Content = "C# is the best",
+                         UserId = 2,
+                         GroupId = 2,
+                         ParentPostId = 8,
                      }
                 );
             modelBuilder.Entity<Rsvp>()
@@ -201,21 +268,26 @@ namespace AlumniNetworkAPI.Models
                     EventId = 1,
                     UserId = 1
                 },
-                 new EventUser
-                 {
-                     EventId = 1,
-                     UserId = 3
-                 },
-                  new EventUser
-                  {
-                      EventId = 2,
-                      UserId = 2
-                  },
-                   new EventUser
-                   {
-                       EventId = 2,
-                       UserId = 3
-                   }
+                new EventUser
+                {
+                    EventId = 1,
+                    UserId = 3
+                },
+                new EventUser
+                {
+                    EventId = 2,
+                    UserId = 2
+                },
+                new EventUser
+                {
+                    EventId = 2,
+                    UserId = 3
+                },
+                new EventUser
+                {
+                    EventId = 3,
+                    UserId = 3
+                }
                 );
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Topics)
@@ -249,9 +321,7 @@ namespace AlumniNetworkAPI.Models
                     je.HasData(
                         new { TopicsId = 1, EventsId = 1 },
                         new { TopicsId = 2, EventsId = 2 }
-
                         );
-
                 }
                 );
             modelBuilder.Entity<Event>()
@@ -265,11 +335,9 @@ namespace AlumniNetworkAPI.Models
                 {
                     je.HasKey("GroupsId", "EventsId");
                     je.HasData(
-                        new { GroupsId = 1, EventsId = 1 },
-                        new { GroupsId = 2, EventsId = 2 }
+                        new { GroupsId = 2, EventsId = 3 }
 
                         );
-
                 }
                 );
             modelBuilder.Entity<User>()
@@ -288,7 +356,6 @@ namespace AlumniNetworkAPI.Models
                         new { GroupsId = 2, UsersId = 2 },
                         new { GroupsId = 2, UsersId = 3 }
                         );
-
                 }
                 );
         }

@@ -6,11 +6,7 @@ namespace AlumniNetworkAPI.Models.DTOs.UserDtos
     {
         public int Id { get; set; }
         [MaxLength(50)]
-<<<<<<< HEAD
         public string Username { get; set; }
-=======
-        public string UserName { get; set; }
->>>>>>> master
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Status { get; set; }
@@ -18,8 +14,5 @@ namespace AlumniNetworkAPI.Models.DTOs.UserDtos
         public string FunFact { get; set; }
         [Url]
         public string PictureUrl { get; set; }
-        
-
-
     }
 }
