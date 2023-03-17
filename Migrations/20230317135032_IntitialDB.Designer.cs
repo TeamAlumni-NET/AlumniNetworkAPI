@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlumniNetworkAPI.Migrations
 {
     [DbContext(typeof(AlumniNetworkDBContext))]
-    [Migration("20230314124108_InitialDb")]
-    partial class InitialDb
+    [Migration("20230317135032_IntitialDB")]
+    partial class IntitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace AlumniNetworkAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EventCreatorId")
@@ -68,22 +68,32 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 1,
                             AllowGuests = true,
                             Description = "Friday night fun. At linnanmäki",
-                            EndTime = new DateTime(2023, 7, 5, 21, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 1,
-                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5252),
+                            LastUpdated = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3771),
                             Name = "Afterwork",
-                            StartTime = new DateTime(2023, 7, 5, 17, 30, 0, 0, DateTimeKind.Unspecified)
+                            StartTime = new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             AllowGuests = true,
                             Description = "Noroffs teachers bootcamp",
-                            EndTime = new DateTime(2023, 6, 10, 21, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 2,
-                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5317),
+                            LastUpdated = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3819),
                             Name = "Noroff summer bootcamp",
-                            StartTime = new DateTime(2023, 6, 8, 17, 30, 0, 0, DateTimeKind.Unspecified)
+                            StartTime = new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AllowGuests = true,
+                            Description = "Boardgame tuesday!",
+                            EventCreatorId = 3,
+                            LastUpdated = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3822),
+                            Name = "Boargames!",
+                            StartTime = new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -121,6 +131,11 @@ namespace AlumniNetworkAPI.Migrations
                         {
                             UserId = 3,
                             EventId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            EventId = 3
                         });
                 });
 
@@ -222,9 +237,7 @@ namespace AlumniNetworkAPI.Migrations
                         {
                             Id = 1,
                             Content = "My very first content.",
-                            EventId = 1,
-                            GroupId = 1,
-                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5339),
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3837),
                             Title = "Afterwork coming soon!",
                             TopicId = 1,
                             UserId = 1
@@ -233,22 +246,81 @@ namespace AlumniNetworkAPI.Migrations
                         {
                             Id = 2,
                             Content = "Lets GOO!",
-                            EventId = 1,
-                            GroupId = 1,
                             ParentPostId = 1,
-                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5344),
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3840),
                             TopicId = 1,
-                            UserId = 1
+                            UserId = 3
                         },
                         new
                         {
                             Id = 3,
-                            Content = "My very first content.",
-                            EventId = 2,
+                            Content = "Get reafy to pack your bags!",
                             GroupId = 2,
-                            TimeStamp = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5349),
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3843),
                             Title = "Bootcamp coming soon",
-                            TopicId = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "Does someone have trangia?",
+                            EventId = 2,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3845),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "What boardgames people like to play?",
+                            GroupId = 1,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3848),
+                            Title = "Boardgames",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Content = "Ark Nova is the best!",
+                            GroupId = 1,
+                            ParentPostId = 5,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3850),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Content = "Is it one of the games in SM-competition of boardgames?",
+                            GroupId = 1,
+                            ParentPostId = 5,
+                            TargetUserId = 3,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3852),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Content = "What do your prefer?",
+                            GroupId = 2,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3855),
+                            Title = "Best language to teach?",
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Content = "Me first Javascript!",
+                            GroupId = 2,
+                            ParentPostId = 8,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3857),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Content = "C# is the best",
+                            GroupId = 2,
+                            ParentPostId = 8,
+                            TimeStamp = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3859),
                             UserId = 2
                         });
                 });
@@ -287,7 +359,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 1,
                             EventId = 1,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5368),
+                            LastUpdated = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3878),
                             UserId = 1
                         },
                         new
@@ -295,7 +367,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 2,
                             EventId = 2,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 14, 14, 41, 7, 904, DateTimeKind.Local).AddTicks(5372),
+                            LastUpdated = new DateTime(2023, 3, 17, 15, 50, 32, 327, DateTimeKind.Local).AddTicks(3881),
                             UserId = 2
                         });
                 });
@@ -426,13 +498,8 @@ namespace AlumniNetworkAPI.Migrations
                     b.HasData(
                         new
                         {
-                            GroupsId = 1,
-                            EventsId = 1
-                        },
-                        new
-                        {
                             GroupsId = 2,
-                            EventsId = 2
+                            EventsId = 3
                         });
                 });
 

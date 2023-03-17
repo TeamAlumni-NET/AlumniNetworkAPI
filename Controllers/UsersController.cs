@@ -68,7 +68,7 @@ namespace AlumniNetworkAPI.Controllers
         [HttpPatch("{username}")]
         public async Task<IActionResult> PatchUser(string username, UserEditDto userEditDto)
         {
-            if (username != userEditDto.UserName)
+            if (username != userEditDto.Username)
             {
                 return BadRequest();
             }
