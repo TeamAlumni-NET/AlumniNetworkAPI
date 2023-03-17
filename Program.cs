@@ -3,6 +3,7 @@ using AlumniNetworkAPI.Services.Events;
 using AlumniNetworkAPI.Services.EventUsers;
 using AlumniNetworkAPI.Services.Groups;
 using AlumniNetworkAPI.Services.Posts;
+using AlumniNetworkAPI.Services.Topics;
 using AlumniNetworkAPI.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ builder.Services.AddTransient<IEventUserService, EventUserService>();
 builder.Services.AddTransient<IGroupService, GroupService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITopicService, TopicService>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -56,7 +58,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //Retrieves the keys from keycloak instance to verify token
             var response = client.GetAsync(keyuri).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(responseString);
             var keys = new JsonWebKeySet(responseString);
 
             return keys.Keys;

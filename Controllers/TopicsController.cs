@@ -1,8 +1,12 @@
 ﻿using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.TopicDtos;
 using AlumniNetworkAPI.Models.Models;
+using AlumniNetworkAPI.Services.Topics;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -11,18 +15,36 @@ namespace AlumniNetworkAPI.Controllers
     [ApiController]
     public class TopicsController : ControllerBase
     {
+        private readonly ITopicService _topicService;
         private readonly AlumniNetworkDBContext _context;
+        private readonly IMapper _mapper;
 
-        public TopicsController(AlumniNetworkDBContext context)
+        public TopicsController(AlumniNetworkDBContext context, IMapper mapper, ITopicService topicService)
         {
             _context = context;
+            _mapper = mapper;
+            _topicService = topicService;
         }
 
         // GET: api/Topics
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Topic>>> GetTopics()
+        public async Task<ActionResult<IEnumerable<TopicDto>>> GetTopics(int userId)
         {
-            return await _context.Topics.ToListAsync();
+            var rawTopics = (_mapper.Map<IEnumerable<TopicDto>>(await _topicService.GetAll()));
+
+            List<TopicUserDto> filteredTopicsForUser = new List<TopicUserDto> { };
+
+            foreach (var group in rawTopics)
+            {
+                filteredTopicsForUser.Add(new TopicUserDto()
+                {
+                    Id = group.Id,
+                    Name = group.Name,
+                    Description = group.Description,
+                    IsMember = group.Users.Contains(userId)
+                });
+            }
+            return base.Ok(filteredTopicsForUser);
         }
 
         // GET: api/Topics/5
