@@ -1,11 +1,20 @@
 ﻿using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using System.Linq;
 
 namespace AlumniNetworkAPI.Services.Groups
 {
     public class GroupService : IGroupService
     {
-        private readonly AlumniNetworkDBContext? _dbContext;
+        private readonly AlumniNetworkDBContext _context;
+
+        public GroupService(AlumniNetworkDBContext dbContext)
+        {
+            _context = dbContext;
+        }
+
         public Task<Group> Create(Group entity)
         {
             throw new NotImplementedException();
@@ -16,10 +25,11 @@ namespace AlumniNetworkAPI.Services.Groups
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Group>> GetAll()
+        public async Task<IEnumerable<Group>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Groups.Include(g => g.Users).ToListAsync();
         }
+
 
         public Task<Group> GetById(int id)
         {

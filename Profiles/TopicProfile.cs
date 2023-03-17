@@ -8,7 +8,10 @@ namespace AlumniNetworkAPI.Profiles
     {
         public TopicProfile() 
         {
-            CreateMap<TopicDto, Topic>().ReverseMap();  
+            CreateMap<TopicDto, Topic>().ReverseMap();
+            CreateMap<Topic, TopicDto>()
+                .ForMember(dto => dto.Users, options =>
+                options.MapFrom(topicDomain => topicDomain.Users.Select(u => u.Id).ToList()));
         }
     }
 }
