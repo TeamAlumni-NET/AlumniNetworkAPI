@@ -46,6 +46,22 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetEvents(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetByUserId(id)));
+            }
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+
         // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         /*

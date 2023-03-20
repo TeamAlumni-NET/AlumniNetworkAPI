@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
-    public class EventProfile: Profile
+    public class EventProfile : Profile
     {
-        public EventProfile() 
+        public EventProfile()
         {
             CreateMap<Event, EventDto>()
                 .ForMember(dto => dto.Topics, options =>
@@ -17,6 +17,14 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(groupDomain => groupDomain.Groups.Select(group => $"{group.Id}").ToList()));
 
             CreateMap<EventDto, Event>().ReverseMap();
+            CreateMap<Event, EventCalendarDto>()
+                .ForMember(dto => dto.title, opt =>
+               opt.MapFrom(src => src.Name))
+                .ForMember(dto => dto.start, opt =>
+                   opt.MapFrom(src => src.StartTime))
+                .ForMember(dto => dto.end, opt =>
+                   opt.MapFrom(src => src.EndTime))
+                .ReverseMap();
         }
     }
 }

@@ -2,7 +2,6 @@
 using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace AlumniNetworkAPI.Services.Events
 {
@@ -24,12 +23,26 @@ namespace AlumniNetworkAPI.Services.Events
         public async Task<Event> GetById(int id)
         {
             var eventById = await _dbContext.Events.FindAsync(id);
-            await _dbContext.Events.FindAsync(id);
 
-            if (eventById == null) 
+            if (eventById == null)
             {
-            throw new EventNotFoundException(id);
+                throw new EventNotFoundException(id);
+            }
+
+            return eventById;
         }
+        public async Task<IEnumerable<Event>> GetByUserId(int id)
+        {
+            var eventById = await _dbContext.EventUsers
+                .Include(x => x.Event)
+                .Where(x => x.UserId == id)
+                .Select(x => x.Event)
+                .ToListAsync();
+
+            if (eventById == null)
+            {
+                throw new EventNotFoundException(id);
+            }
 
             return eventById;
         }
@@ -66,9 +79,9 @@ namespace AlumniNetworkAPI.Services.Events
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
-         
+
         }
 
-       
+
     }
 }
