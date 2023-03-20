@@ -9,7 +9,7 @@
         public string Description { get; set; }
         public bool AllowGuests { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public int EventCreatorId { get; set; }
         public User? EventCreator { get; set; }
         public ICollection<Topic>? Topics { get; set; }
