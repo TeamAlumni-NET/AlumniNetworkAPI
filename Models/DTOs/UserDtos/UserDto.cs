@@ -14,8 +14,5 @@ namespace AlumniNetworkAPI.Models.DTOs.UserDtos
         public string FunFact { get; set; }
         [Url]
         public string PictureUrl { get; set; }
-        
-
-
     }
 }
