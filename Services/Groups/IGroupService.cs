@@ -1,4 +1,5 @@
-﻿using AlumniNetworkAPI.Models.Models;
+﻿using AlumniNetworkAPI.Models.DTOs.GroupDtos;
+using AlumniNetworkAPI.Models.Models;
 
 namespace AlumniNetworkAPI.Services.Groups
 {

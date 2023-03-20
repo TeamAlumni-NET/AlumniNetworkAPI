@@ -1,8 +1,12 @@
 ﻿using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.GroupDtos;
 using AlumniNetworkAPI.Models.Models;
+using AlumniNetworkAPI.Services.Groups;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -11,18 +15,46 @@ namespace AlumniNetworkAPI.Controllers
     [ApiController]
     public class GroupsController : ControllerBase
     {
+        private readonly IGroupService _groupService;
         private readonly AlumniNetworkDBContext _context;
+        private readonly IMapper _mapper;
 
-        public GroupsController(AlumniNetworkDBContext context)
+        public GroupsController(AlumniNetworkDBContext context, IMapper mapper, IGroupService groupService)
         {
             _context = context;
+            _mapper = mapper;
+            _groupService = groupService;
         }
 
         // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups(int userId)
         {
-            return await _context.Groups.ToListAsync();
+            var rawGroups = (_mapper.Map < IEnumerable < GroupDto >> (await _groupService.GetAll()));
+            if(userId != null) {
+                var filteredGroups = rawGroups.Where(g => !Convert.ToBoolean(g.IsPrivate) || Convert.ToBoolean(g.IsPrivate) && g.Users.Contains(userId));
+
+                List<GroupUserDto> filteredGroupsForUser = new List<GroupUserDto> { };
+
+                foreach (var group in filteredGroups)
+                {
+                    filteredGroupsForUser.Add(new GroupUserDto()
+                    {
+                        Id = group.Id,
+                        Name = group.Name,
+                        Description = group.Description,
+                        IsPrivate = group.IsPrivate,
+                        IsMember = group.Users.Contains(userId)
+                    });
+                }
+
+                return base.Ok(filteredGroupsForUser);
+            }
+            else
+            {
+                return base.Ok(rawGroups);
+            }
+            
         }
 
         // GET: api/Groups/5

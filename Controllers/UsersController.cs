@@ -68,7 +68,9 @@ namespace AlumniNetworkAPI.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchUser(int id, UserEditDto userEditDto)
         {
+
             if (id != userEditDto.Id)
+
             {
                 return BadRequest();
             }

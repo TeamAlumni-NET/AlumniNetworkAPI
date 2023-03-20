@@ -44,8 +44,8 @@ namespace AlumniNetworkAPI.Services.Posts
         public async Task<Post> Update(Post entity)
         {
             var foundPost = await _dbContext.Posts.AnyAsync(x => x.Id == entity.Id);
-            //if(foundPost)??
-            if (entity == null)
+
+            if (foundPost == null)
             {
                 throw new PostNotFoundException(entity.Id);
             }
@@ -55,9 +55,15 @@ namespace AlumniNetworkAPI.Services.Posts
         }
 
 
-        public Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var post = await _dbContext.Posts.FindAsync(id);
+            if (post == null)
+            {
+                throw new PostNotFoundException(id);
+            }
+            _dbContext.Posts.Remove(post);
+            await _dbContext.SaveChangesAsync();
         }
 
        
