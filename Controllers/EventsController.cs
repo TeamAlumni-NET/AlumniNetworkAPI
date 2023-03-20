@@ -24,8 +24,12 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId,string target)
         {
+            if (target == "timeline")
+            {
+                Ok(_mapper.Map<IEnumerable<EventNamesDto>>(await _eventService.GetAllForTimeLine(userId)));
+            }
             return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
         }
 

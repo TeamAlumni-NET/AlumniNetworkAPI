@@ -1,5 +1,6 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -69,6 +70,12 @@ namespace AlumniNetworkAPI.Services.Events
          
         }
 
-       
+        public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
+                .Where(e => e.AllowGuests)
+                .ToListAsync();
+        }
     }
 }

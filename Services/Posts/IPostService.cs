@@ -4,6 +4,6 @@ namespace AlumniNetworkAPI.Services.Posts
 {
     public interface IPostService : ICrudService<Post, int>
     {
-        Task<Post> GetTimeline();
+        Task<IEnumerable<Post>> GetTimeline(int userId);
     }
 }
