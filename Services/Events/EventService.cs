@@ -50,23 +50,13 @@ namespace AlumniNetworkAPI.Services.Events
 
         public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
         {
-            var jtn = await _dbContext.Events
-                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
-                .Where(e => e.AllowGuests)
-                .Include(e => e.Groups)
-                .Include(e => e.Topics)
-                .Include(e => e.Posts)
-                .ThenInclude(p => p.User)
-                .ToListAsync();
-            var combined = jtn.Select(a => a.Posts);
-            Console.WriteLine($"\n\n\n\nJtn: \n{jtn}\ncombined: \n{combined}\n\n\n\n");
-
             return await _dbContext.Events
                 .Where(e => e.EventUsers.Any(x => x.UserId == userId))
                 .Where(e => e.AllowGuests)
                 .Include(e => e.Groups)
                 .Include(e => e.Topics)
                 .Include(e => e.Posts)
+                .ThenInclude(p => p.User)
                 .ToListAsync();
         }
 
