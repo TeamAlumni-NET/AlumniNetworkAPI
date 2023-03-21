@@ -1,4 +1,12 @@
-﻿namespace AlumniNetworkAPI.Controllers
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.Models;
+using AlumniNetworkAPI.Services.Events;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
@@ -27,26 +35,9 @@
                 }
                 else if (target == "calendar")
                 {
-                    return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetByUserId(userId)));
+                    return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserEventsByUserId(userId)));
                 }
                 return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
-            }
-            catch (EventNotFoundException ex)
-            {
-                return NotFound(new ProblemDetails
-                {
-                    Detail = ex.Message
-                });
-            }
-        }
-
-        // GET: api/Events/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
-        {
-            try
-            {
-                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserEventsByUserId(id)));
             }
             catch (EventNotFoundException ex)
             {
