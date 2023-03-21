@@ -1,9 +1,4 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace AlumniNetworkAPI.Services.Events
+﻿namespace AlumniNetworkAPI.Services.Events
 {
     public class EventService : IEventService
     {
@@ -43,8 +38,17 @@ namespace AlumniNetworkAPI.Services.Events
             {
                 throw new EventNotFoundException(id);
             }
-
             return eventById;
+        }
+
+        public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
+                .Where(e => e.AllowGuests)
+                .Include(e => e.Groups)
+                .Include(e => e.Topics)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Event>> GetUserSuggestedEventsByUserId(int id)
