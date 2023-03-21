@@ -3,7 +3,6 @@ using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace AlumniNetworkAPI.Services.Events
 {
@@ -25,14 +24,37 @@ namespace AlumniNetworkAPI.Services.Events
         public async Task<Event> GetById(int id)
         {
             var eventById = await _dbContext.Events.FindAsync(id);
-            await _dbContext.Events.FindAsync(id);
 
-            if (eventById == null) 
+            if (eventById == null)
             {
-            throw new EventNotFoundException(id);
-        }
+                throw new EventNotFoundException(id);
+            }
 
             return eventById;
+        }
+        public async Task<IEnumerable<Event>> GetByUserId(int id)
+        {
+            var eventById = await _dbContext.EventUsers
+                .Include(x => x.Event)
+                .Where(x => x.UserId == id)
+                .Select(x => x.Event)
+                .ToListAsync();
+
+            if (eventById == null)
+            {
+                throw new EventNotFoundException(id);
+            }
+            return eventById;
+        }
+
+        public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
+                .Where(e => e.AllowGuests)
+                .Include(e => e.Groups)
+                .Include(e => e.Topics)
+                .ToListAsync();
         }
 
         public async Task<Event> Create(Event entity)
@@ -67,15 +89,9 @@ namespace AlumniNetworkAPI.Services.Events
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
-         
+
         }
 
-        public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
-        {
-            return await _dbContext.Events
-                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
-                .Where(e => e.AllowGuests)
-                .ToListAsync();
-        }
+       
     }
 }

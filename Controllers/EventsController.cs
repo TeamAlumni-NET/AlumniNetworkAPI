@@ -26,11 +26,26 @@ namespace AlumniNetworkAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId,string target)
         {
-            if (target == "timeline")
+            try
             {
-                Ok(_mapper.Map<IEnumerable<EventNamesDto>>(await _eventService.GetAllForTimeLine(userId)));
+                
+                if (target == "timeline")
+                {
+                    return Ok(_mapper.Map<IEnumerable<EventNamesDto>>(await _eventService.GetAllForTimeLine(userId)));
+                }
+                else if (target == "calendar")
+                {
+                    return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetByUserId(userId)));
+                }
+                return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
             }
-            return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
         }
 
         // GET: api/Events/5

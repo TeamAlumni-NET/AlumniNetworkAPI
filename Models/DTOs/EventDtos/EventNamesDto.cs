@@ -3,10 +3,11 @@
     public class EventNamesDto
     {
         public int Id { get; set; }
+        public DateTime TimeStamp { get; set; }
         public string Name { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public String? Topics { get; set; }
-        public String? Groups { get; set; }
+        public List<String>? Topic { get; set; }
+        public List<String>? Group { get; set; }
     }
 }
