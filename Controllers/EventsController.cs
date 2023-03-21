@@ -51,7 +51,22 @@ namespace AlumniNetworkAPI.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetByUserId(id)));
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserEventsByUserId(id)));
+            }
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+        [HttpGet("suggested/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetSuggestedEvents(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserSuggestedEventsByUserId(id)));
             }
             catch (EventNotFoundException ex)
             {

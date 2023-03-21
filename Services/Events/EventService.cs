@@ -31,7 +31,7 @@ namespace AlumniNetworkAPI.Services.Events
 
             return eventById;
         }
-        public async Task<IEnumerable<Event>> GetByUserId(int id)
+        public async Task<IEnumerable<Event>> GetUserEventsByUserId(int id)
         {
             var eventById = await _dbContext.EventUsers
                 .Include(x => x.Event)
@@ -47,6 +47,29 @@ namespace AlumniNetworkAPI.Services.Events
             return eventById;
         }
 
+        public async Task<IEnumerable<Event>> GetUserSuggestedEventsByUserId(int id)
+        {
+            var EventsList = new List<Event>();
+            var FullUser = await _dbContext.Users
+                .Where(x => x.Id == id)
+                .Include(x => x.Topics)
+                    .ThenInclude(x => x.Events)
+                .Include(x => x.Groups)
+                    .ThenInclude(x => x.Events)
+                .ToListAsync();
+
+            foreach (var user in FullUser)
+            {
+                foreach (var group in user.Groups)
+                    foreach (var e in group.Events)
+                        EventsList.Add(e);
+                foreach (var topic in user.Topics)
+                    foreach (var e in topic.Events)
+                        EventsList.Add(e);
+            }
+
+            return EventsList;
+        }
         public async Task<Event> Create(Event entity)
         {
             _dbContext.Events.Add(entity);
