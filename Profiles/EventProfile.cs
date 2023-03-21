@@ -1,4 +1,5 @@
 ﻿using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 
@@ -24,7 +25,10 @@ namespace AlumniNetworkAPI.Profiles
                 .ForMember(dto => dto.Topic, options =>
                 options.MapFrom(eventDomain => eventDomain.Topics.Select(g => g.Name).ToList()))
                 .ForMember(dto => dto.TimeStamp, options =>
-                options.MapFrom(dto => dto.LastUpdated));
+                options.MapFrom(eventDomain => eventDomain.LastUpdated))
+                .ForMember(dto => dto.Posts, options =>
+                options.MapFrom(eventDomain => eventDomain.Posts.Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content =post.Content }).ToList()))
+                ;
 
             CreateMap<Event, EventCalendarDto>()
                 .ForMember(dto => dto.title, opt =>
