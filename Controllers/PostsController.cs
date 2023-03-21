@@ -28,9 +28,17 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId, string timeline)
         {
-            return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
+            if (timeline == null)
+            {
+                return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
+            }
+            else
+            {
+                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>( await _postService.GetTimeline(userId)));
+            }
+            
         }
 
         // GET: api/Posts/5
