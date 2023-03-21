@@ -1,12 +1,4 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models.DTOs.EventDtos;
-using AlumniNetworkAPI.Models.Models;
-using AlumniNetworkAPI.Services.Events;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AlumniNetworkAPI.Controllers
+﻿namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
@@ -24,11 +16,11 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId,string target)
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId, string target)
         {
             try
             {
-                
+
                 if (target == "timeline")
                 {
                     return Ok(_mapper.Map<IEnumerable<EventNamesDto>>(await _eventService.GetAllForTimeLine(userId)));
@@ -54,7 +46,22 @@ namespace AlumniNetworkAPI.Controllers
         {
             try
             {
-                return await _eventService.GetById(id);
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserEventsByUserId(id)));
+            }
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+        [HttpGet("suggested/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetSuggestedEvents(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserSuggestedEventsByUserId(id)));
             }
             catch (EventNotFoundException ex)
             {
