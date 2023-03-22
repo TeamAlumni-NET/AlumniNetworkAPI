@@ -26,7 +26,6 @@ namespace AlumniNetworkAPI.Services.Posts
             var postList = await _dbContext.Posts
                 .Where(p => p.ParentPostId == id)
                 .ToListAsync();
-            Console.WriteLine(postList.Count);
             var result = new ChildPostRootDto();
             result.ChildPosts = new List<ChildPostDto>();
 
@@ -34,7 +33,6 @@ namespace AlumniNetworkAPI.Services.Posts
             foreach (var post in postList)
             {
                 var single = new ChildPostDto();
-                Console.WriteLine(post.Id);
                 var user = await _dbContext.Users
                 .Where(u => u.Id == post.UserId)
                 .FirstOrDefaultAsync();
@@ -44,7 +42,6 @@ namespace AlumniNetworkAPI.Services.Posts
                 single.TimeStamp = post.TimeStamp;
                 single.username = user.Username;
                 result.ChildPosts.Add(single);
-                Console.WriteLine(single.Content);
                 
 
             }
