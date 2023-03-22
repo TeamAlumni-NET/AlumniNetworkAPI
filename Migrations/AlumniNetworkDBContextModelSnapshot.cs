@@ -67,7 +67,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Friday night fun. At linnanmäki",
                             EndTime = new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 1,
-                            LastUpdated = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7478),
+                            LastUpdated = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8713),
                             Name = "Afterwork",
                             StartTime = new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -78,7 +78,7 @@ namespace AlumniNetworkAPI.Migrations
                             Description = "Noroffs teachers bootcamp",
                             EndTime = new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified),
                             EventCreatorId = 2,
-                            LastUpdated = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7529),
+                            LastUpdated = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8769),
                             Name = "Noroff summer bootcamp",
                             StartTime = new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -88,7 +88,7 @@ namespace AlumniNetworkAPI.Migrations
                             AllowGuests = true,
                             Description = "Boardgame tuesday!",
                             EventCreatorId = 3,
-                            LastUpdated = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7531),
+                            LastUpdated = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8771),
                             Name = "Boargames!",
                             StartTime = new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -144,9 +144,6 @@ namespace AlumniNetworkAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -167,7 +164,6 @@ namespace AlumniNetworkAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatorId = 1,
                             Description = "Experis employees",
                             IsPrivate = false,
                             Name = "Experis workers"
@@ -175,7 +171,6 @@ namespace AlumniNetworkAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatorId = 2,
                             Description = "The amazing teachers of noroff.",
                             IsPrivate = true,
                             Name = "Noroff teachers"
@@ -239,7 +234,7 @@ namespace AlumniNetworkAPI.Migrations
                         {
                             Id = 1,
                             Content = "My very first content.",
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7546),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8786),
                             Title = "Afterwork coming soon!",
                             TopicId = 1,
                             UserId = 1
@@ -249,7 +244,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 2,
                             Content = "Lets GOO!",
                             ParentPostId = 1,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7549),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8790),
                             TopicId = 1,
                             UserId = 3
                         },
@@ -258,7 +253,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 3,
                             Content = "Get reafy to pack your bags!",
                             GroupId = 2,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7552),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8792),
                             Title = "Bootcamp coming soon",
                             UserId = 2
                         },
@@ -267,7 +262,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 4,
                             Content = "Does someone have trangia?",
                             EventId = 2,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7554),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8795),
                             UserId = 3
                         },
                         new
@@ -275,7 +270,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 5,
                             Content = "What boardgames people like to play?",
                             GroupId = 1,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7557),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8797),
                             Title = "Boardgames",
                             UserId = 1
                         },
@@ -285,7 +280,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "Ark Nova is the best!",
                             GroupId = 1,
                             ParentPostId = 5,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7559),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8799),
                             UserId = 3
                         },
                         new
@@ -295,7 +290,7 @@ namespace AlumniNetworkAPI.Migrations
                             GroupId = 1,
                             ParentPostId = 5,
                             TargetUserId = 3,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7561),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8802),
                             UserId = 1
                         },
                         new
@@ -303,7 +298,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 8,
                             Content = "What do your prefer?",
                             GroupId = 2,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7564),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8804),
                             Title = "Best language to teach?",
                             UserId = 3
                         },
@@ -313,7 +308,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "Me first Javascript!",
                             GroupId = 2,
                             ParentPostId = 8,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7566),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8806),
                             UserId = 3
                         },
                         new
@@ -322,7 +317,7 @@ namespace AlumniNetworkAPI.Migrations
                             Content = "C# is the best",
                             GroupId = 2,
                             ParentPostId = 8,
-                            TimeStamp = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7568),
+                            TimeStamp = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8809),
                             UserId = 2
                         });
                 });
@@ -361,7 +356,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 1,
                             EventId = 1,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7586),
+                            LastUpdated = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8827),
                             UserId = 1
                         },
                         new
@@ -369,7 +364,7 @@ namespace AlumniNetworkAPI.Migrations
                             Id = 2,
                             EventId = 2,
                             GuestCount = 1,
-                            LastUpdated = new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7589),
+                            LastUpdated = new DateTime(2023, 3, 22, 9, 29, 22, 232, DateTimeKind.Local).AddTicks(8830),
                             UserId = 2
                         });
                 });

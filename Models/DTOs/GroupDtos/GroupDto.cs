@@ -9,8 +9,6 @@ namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsPrivate { get; set; }
-
-        public int CreatorId { get; set; }
         public List<int> Users { get; set; }
         public List<int> Posts { get; set; }
         public List<int> Events { get; set; }

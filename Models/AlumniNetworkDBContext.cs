@@ -90,7 +90,6 @@ namespace AlumniNetworkAPI.Models
                         Name = "Experis workers",
                         Description = "Experis employees",
                         IsPrivate = false,
-                        CreatorId = 1
                     },
                     new Group
                     {
@@ -98,7 +97,6 @@ namespace AlumniNetworkAPI.Models
                         Name = "Noroff teachers",
                         Description = "The amazing teachers of noroff.",
                         IsPrivate = true,
-                        CreatorId = 2
                     }
                 );
             modelBuilder.Entity<Topic>()

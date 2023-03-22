@@ -19,11 +19,12 @@ namespace AlumniNetworkAPI.Services.Groups
 
         public async Task<Group> AddUserToGroup(int groupId, int userId)
         {
-            var group = await _context.Groups.Include(x => x.Users).Where(x => x.Id == groupId).FirstAsync();
-            var user = await _context.Users.FindAsync(userId);
+            var group = await _context.Groups.Include(x => x.Users).Where(x => x.Id == groupId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
             group.Users.Add(user);
-            await _context.SaveChangesAsync();  
+            _context.Entry(group).State= EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return group;
         }

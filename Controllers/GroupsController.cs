@@ -105,21 +105,36 @@ namespace AlumniNetworkAPI.Controllers
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<GroupDto>> CreateGroup(GroupCreateDto groupCreateDto)
+        public async Task<ActionResult<GroupDto>> CreateGroup(GroupCreateDto groupCreateDto, int userId)
         {
             var group = _mapper.Map<Group>(groupCreateDto);
             await _groupService.Create(group);
           
             var groupDto = _mapper.Map<GroupDto>(group);
 
+            
             int groupId = group.Id;
-            int userId = group.CreatorId;
 
             await _groupService.AddUserToGroup(groupId, userId);
+          
 
             return CreatedAtAction(nameof(GetGroup), new { id = groupDto.Id }, groupDto);
 
         }
+
+
+        // POST: api/Groups/:groupId/join
+        [HttpPost("{id}/join")]
+        public async Task<ActionResult> JoinGroup(int id, int userId)
+        {
+            await _groupService.AddUserToGroup(id, userId);
+
+            return CreatedAtAction("JoinGroup", id);
+
+        }
+
+
+
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]
