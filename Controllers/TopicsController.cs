@@ -61,6 +61,37 @@ namespace AlumniNetworkAPI.Controllers
             return topic;
         }
 
+        // POST: api/Topics
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<TopicDto>> CreateTopic(TopicCreateDto topicCreateDto, int userId)
+        {
+            var topic = _mapper.Map<Topic>(topicCreateDto);
+            await _topicService.Create(topic);
+
+            var topicDto = _mapper.Map<TopicDto>(topic);
+
+            int topicId = topic.Id;
+
+            await _topicService.AddUserToTopic(topicId, userId);
+
+            return CreatedAtAction(nameof(GetTopic), new { id = topicDto.Id }, topicDto);
+
+        }
+
+
+        // POST: api/Topics/:topicId/join
+        [HttpPost("{id}/join")]
+        public async Task<ActionResult> JoinTopic(int id, int userId)
+        {
+            await _topicService.AddUserToTopic(id, userId);
+
+            return CreatedAtAction("JoinTopic", id);
+
+        }
+
+
+
         // PUT: api/Topics/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -92,16 +123,7 @@ namespace AlumniNetworkAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Topics
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
-        {
-            _context.Topics.Add(topic);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTopic", new { id = topic.Id }, topic);
-        }
+        
 
         // DELETE: api/Topics/5
         [HttpDelete("{id}")]

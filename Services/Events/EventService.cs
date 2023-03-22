@@ -1,8 +1,9 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace AlumniNetworkAPI.Services.Events
 {
@@ -24,16 +25,64 @@ namespace AlumniNetworkAPI.Services.Events
         public async Task<Event> GetById(int id)
         {
             var eventById = await _dbContext.Events.FindAsync(id);
-            await _dbContext.Events.FindAsync(id);
 
-            if (eventById == null) 
+            if (eventById == null)
             {
-            throw new EventNotFoundException(id);
-        }
+                throw new EventNotFoundException(id);
+            }
 
             return eventById;
         }
+        public async Task<IEnumerable<Event>> GetUserEventsByUserId(int id)
+        {
+            var eventById = await _dbContext.EventUsers
+                .Include(x => x.Event)
+                .Where(x => x.UserId == id)
+                .Select(x => x.Event)
+                .ToListAsync();
 
+            if (eventById == null)
+            {
+                throw new EventNotFoundException(id);
+            }
+            return eventById;
+        }
+
+        public async Task<IEnumerable<Event>> GetAllForTimeLine(int userId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.EventUsers.Any(x => x.UserId == userId))
+                .Where(e => e.AllowGuests)
+                .Include(e => e.Groups)
+                .Include(e => e.Topics)
+                .Include(e => e.Posts)
+                .ThenInclude(p => p.User)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Event>> GetUserSuggestedEventsByUserId(int id)
+        {
+            var EventsList = new List<Event>();
+            var FullUser = await _dbContext.Users
+                .Where(x => x.Id == id)
+                .Include(x => x.Topics)
+                    .ThenInclude(x => x.Events)
+                .Include(x => x.Groups)
+                    .ThenInclude(x => x.Events)
+                .ToListAsync();
+
+            foreach (var user in FullUser)
+            {
+                foreach (var group in user.Groups)
+                    foreach (var e in group.Events)
+                        EventsList.Add(e);
+                foreach (var topic in user.Topics)
+                    foreach (var e in topic.Events)
+                        EventsList.Add(e);
+            }
+
+            return EventsList;
+        }
         public async Task<Event> Create(Event entity)
         {
             _dbContext.Events.Add(entity);
@@ -66,9 +115,9 @@ namespace AlumniNetworkAPI.Services.Events
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
-         
+
         }
 
-       
+
     }
 }

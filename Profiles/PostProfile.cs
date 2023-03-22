@@ -13,6 +13,15 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<EditPostDto, Post>().ReverseMap();
             CreateMap<ChildPostDto, Post>().ReverseMap();
             CreateMap<ChildPostRootDto, ChildPostDto>().ReverseMap();
+
+            CreateMap<Post, TimelinePostDto>()
+                .ForMember(dto => dto.User, options =>
+                options.MapFrom(postDomain => postDomain.User.Username))
+                .ForMember(dto => dto.Group, options =>
+                options.MapFrom(postDomain => postDomain.Group.Name))
+                .ForMember(dto => dto.Topic, options => 
+                options.MapFrom(postDomain => postDomain.Topic.Name));
+            CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
         }
     }
 }

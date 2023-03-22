@@ -28,9 +28,23 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId, string timeline)
         {
-            return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
+            if (timeline == null)
+            {
+                return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
+            }
+            else
+            {
+                var result = _mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetTimeline(userId));
+                foreach (var post in result)
+                {
+                    post.Posts = _mapper.Map < List<SimplePostDto>>(result.Where(p => post.Id == p.ParentPostId).ToList());
+                }
+                result = result.Where(post => post.Title != null).ToList();
+                return Ok(result);
+            }
+            
         }
 
         // GET: api/Posts/5
@@ -73,6 +87,7 @@ namespace AlumniNetworkAPI.Controllers
         public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
             var post = _mapper.Map<Post>(createPostDto);
+            post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
             var postDto = _mapper.Map<PostDto>(post);
