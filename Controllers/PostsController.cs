@@ -50,6 +50,23 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        [HttpGet("thread/{id}")]
+        public async Task<ActionResult<ChildPostRootDto>> GetPostThread(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<ChildPostRootDto>(await _postService.GetAllChildPosts(id)));
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+
+
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
