@@ -1,12 +1,4 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models.DTOs.PostDtos;
-using AlumniNetworkAPI.Models.Models;
-using AlumniNetworkAPI.Services.Posts;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AlumniNetworkAPI.Controllers
+﻿namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

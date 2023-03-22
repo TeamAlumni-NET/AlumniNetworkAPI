@@ -1,9 +1,4 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace AlumniNetworkAPI.Services.Events
+﻿namespace AlumniNetworkAPI.Services.Events
 {
     public class EventService : IEventService
     {

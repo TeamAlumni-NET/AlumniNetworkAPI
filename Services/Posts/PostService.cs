@@ -1,9 +1,4 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace AlumniNetworkAPI.Services.Posts
+﻿namespace AlumniNetworkAPI.Services.Posts
 {
     public class PostService : IPostService
     {
@@ -68,13 +63,14 @@ namespace AlumniNetworkAPI.Services.Posts
 
         public async Task<IEnumerable<Post>> GetTimeline(int userId)
         {
-            return await _dbContext.Posts
+            var posts = await _dbContext.Posts
                 .Where(p => (p.Group.Users.Any(u => u.Id == userId)) || (p.Topic.Users.Any(u => u.Id == userId)))
-                .Where(p => p.Title != null)
                 .Include(p => p.Group)
                 .Include(p => p.Topic)
                 .Include(p => p.User)
                 .ToListAsync();
+
+            return posts;
         }
         public async Task<IEnumerable<Post>> GetGroup(int groupid)
         {
