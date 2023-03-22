@@ -8,5 +8,6 @@
         public string User { get; set; }
         public string? Topic { get; set; }
         public string? Group { get; set; }
+        public List<SimplePostDto>? Posts { get; set; }
     }
 }
