@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 
+
 namespace AlumniNetworkAPI.Services.Posts
 {
     public class PostService : IPostService
@@ -22,6 +23,35 @@ namespace AlumniNetworkAPI.Services.Posts
         {
             return await _dbContext.Posts.ToListAsync();
         }
+        public async Task<ChildPostRootDto> GetAllChildPosts(int id)
+        {
+            var postList = await _dbContext.Posts
+                .Where(p => p.ParentPostId == id)
+                .ToListAsync();
+            var result = new ChildPostRootDto();
+            result.ChildPosts = new List<ChildPostDto>();
+
+           
+            foreach (var post in postList)
+            {
+                var single = new ChildPostDto();
+                var user = await _dbContext.Users
+                .Where(u => u.Id == post.UserId)
+                .FirstOrDefaultAsync();
+                
+                single.Id = post.Id;
+                single.Content = post.Content;
+                single.TimeStamp = post.TimeStamp;
+                single.username = user.Username;
+                result.ChildPosts.Add(single);
+                
+
+            }
+            
+            return result;
+        }
+    
+
 
         public async Task<Post> GetById(int id)
         {
