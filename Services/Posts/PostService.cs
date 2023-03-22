@@ -2,7 +2,6 @@
 using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace AlumniNetworkAPI.Services.Posts
 {
@@ -76,6 +75,15 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Include(p => p.Topic)
                 .Include(p => p.User)
                 .ToListAsync();
+        }
+        public async Task<IEnumerable<Post>> GetGroup(int groupid)
+        {
+            var list = await _dbContext.Groups
+                .Where(g => g.Id == groupid)
+                .Include(p => p.Posts.Where(p => p.Title != null))
+                .SingleOrDefaultAsync();
+
+            return list.Posts;
         }
     }
 }

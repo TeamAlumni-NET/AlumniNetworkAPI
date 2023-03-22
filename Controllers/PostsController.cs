@@ -1,13 +1,10 @@
 ﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Posts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -21,24 +18,28 @@ namespace AlumniNetworkAPI.Controllers
 
         public PostsController(IPostService postService, IMapper mapper)
         {
-            _postService= postService;
-            _mapper= mapper;
-           
+            _postService = postService;
+            _mapper = mapper;
+
         }
 
         // GET: api/Posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId, string timeline)
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId, string target)
         {
-            if (timeline == null)
+            if (target == "timeline")
             {
-                return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
+                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetTimeline(userId)));
+            }
+            else if (target == "group")
+            {
+                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetGroup(userId)));
             }
             else
             {
-                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>( await _postService.GetTimeline(userId)));
+                return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));
             }
-            
+
         }
 
         // GET: api/Posts/5
@@ -69,7 +70,7 @@ namespace AlumniNetworkAPI.Controllers
 
             var postDto = _mapper.Map<PostDto>(post);
 
-            return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto); 
+            return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
         }
 
 
