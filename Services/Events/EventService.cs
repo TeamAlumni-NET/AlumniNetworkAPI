@@ -1,5 +1,7 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,6 +55,8 @@ namespace AlumniNetworkAPI.Services.Events
                 .Where(e => e.AllowGuests)
                 .Include(e => e.Groups)
                 .Include(e => e.Topics)
+                .Include(e => e.Posts)
+                .ThenInclude(p => p.User)
                 .ToListAsync();
         }
 

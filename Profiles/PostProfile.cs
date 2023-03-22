@@ -18,6 +18,8 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(postDomain => postDomain.Group.Name))
                 .ForMember(dto => dto.Topic, options => 
                 options.MapFrom(postDomain => postDomain.Topic.Name));
+            CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
+
         }
     }
 }

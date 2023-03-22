@@ -36,7 +36,13 @@ namespace AlumniNetworkAPI.Controllers
             }
             else
             {
-                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>( await _postService.GetTimeline(userId)));
+                var result = _mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetTimeline(userId));
+                foreach (var post in result)
+                {
+                    post.Posts = _mapper.Map < List<SimplePostDto>>(result.Where(p => post.Id == p.ParentPostId).ToList());
+                }
+                result = result.Where(post => post.Title != null).ToList();
+                return Ok(result);
             }
             
         }

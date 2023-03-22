@@ -1,7 +1,9 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Linq;
 
 namespace AlumniNetworkAPI.Services.Posts
@@ -69,13 +71,14 @@ namespace AlumniNetworkAPI.Services.Posts
 
         public async Task<IEnumerable<Post>> GetTimeline(int userId)
         {
-            return await _dbContext.Posts
+            var posts = await _dbContext.Posts
                 .Where(p => (p.Group.Users.Any(u => u.Id == userId)) || (p.Topic.Users.Any(u => u.Id == userId)))
-                .Where(p => p.Title != null)
                 .Include(p => p.Group)
                 .Include(p => p.Topic)
                 .Include(p => p.User)
                 .ToListAsync();
+
+            return posts;
         }
     }
 }
