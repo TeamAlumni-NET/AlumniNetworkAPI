@@ -24,18 +24,18 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId,string target)
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId, string target)
         {
             try
             {
-                
+
                 if (target == "timeline")
                 {
                     return Ok(_mapper.Map<IEnumerable<EventNamesDto>>(await _eventService.GetAllForTimeLine(userId)));
                 }
                 else if (target == "calendar")
                 {
-                    return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetByUserId(userId)));
+                    return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserEventsByUserId(userId)));
                 }
                 return Ok(_mapper.Map<IEnumerable<EventDto>>(await _eventService.GetAll()));
             }
@@ -47,14 +47,12 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
-
-        // GET: api/Events/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
+        [HttpGet("suggested/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetSuggestedEvents(int id)
         {
             try
             {
-                return await _eventService.GetById(id);
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetUserSuggestedEventsByUserId(id)));
             }
             catch (EventNotFoundException ex)
             {
