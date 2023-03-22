@@ -1,9 +1,10 @@
-﻿using AlumniNetworkAPI.Models.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using AlumniNetworkAPI.Models.DTOs.EventDtos;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 
 namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
 {
-    public class GroupDto
+    public class GroupCreateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,8 +12,8 @@ namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
         public bool IsPrivate { get; set; }
 
         public int CreatorId { get; set; }
-        public List<int> Users { get; set; }
-        public List<int> Posts { get; set; }
-        public List<int> Events { get; set; }
+
+        
+    
     }
 }

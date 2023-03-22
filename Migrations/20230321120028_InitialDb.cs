@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AlumniNetworkAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initialDb : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace AlumniNetworkAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsPrivate = table.Column<bool>(type: "bit", nullable: false)
+                    IsPrivate = table.Column<bool>(type: "bit", nullable: false),
+                    CreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,11 +284,11 @@ namespace AlumniNetworkAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Groups",
-                columns: new[] { "Id", "Description", "IsPrivate", "Name" },
+                columns: new[] { "Id", "CreatorId", "Description", "IsPrivate", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Experis employees", false, "Experis workers" },
-                    { 2, "The amazing teachers of noroff.", true, "Noroff teachers" }
+                    { 1, 1, "Experis employees", false, "Experis workers" },
+                    { 2, 2, "The amazing teachers of noroff.", true, "Noroff teachers" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,9 +315,9 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "AllowGuests", "Description", "EndTime", "EventCreatorId", "LastUpdated", "Name", "StartTime" },
                 values: new object[,]
                 {
-                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8025), "Afterwork", new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8102), "Noroff summer bootcamp", new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, true, "Boardgame tuesday!", null, 3, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8107), "Boargames!", new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7478), "Afterwork", new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7529), "Noroff summer bootcamp", new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, true, "Boardgame tuesday!", null, 3, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7531), "Boargames!", new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -335,10 +336,10 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "My very first content.", null, null, null, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8139), "Afterwork coming soon!", 1, 1 },
-                    { 3, "Get reafy to pack your bags!", null, 2, null, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8149), "Bootcamp coming soon", null, 2 },
-                    { 5, "What boardgames people like to play?", null, 1, null, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8157), "Boardgames", null, 1 },
-                    { 8, "What do your prefer?", null, 2, null, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8171), "Best language to teach?", null, 3 }
+                    { 1, "My very first content.", null, null, null, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7546), "Afterwork coming soon!", 1, 1 },
+                    { 3, "Get reafy to pack your bags!", null, 2, null, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7552), "Bootcamp coming soon", null, 2 },
+                    { 5, "What boardgames people like to play?", null, 1, null, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7557), "Boardgames", null, 1 },
+                    { 8, "What do your prefer?", null, 2, null, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7564), "Best language to teach?", null, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -383,12 +384,12 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
                 values: new object[,]
                 {
-                    { 2, "Lets GOO!", null, null, 1, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8145), null, 1, 3 },
-                    { 4, "Does someone have trangia?", 2, null, null, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8153), null, null, 3 },
-                    { 6, "Ark Nova is the best!", null, 1, 5, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8160), null, null, 3 },
-                    { 7, "Is it one of the games in SM-competition of boardgames?", null, 1, 5, 3, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8164), null, null, 1 },
-                    { 9, "Me first Javascript!", null, 2, 8, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8174), null, null, 3 },
-                    { 10, "C# is the best", null, 2, 8, null, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8177), null, null, 2 }
+                    { 2, "Lets GOO!", null, null, 1, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7549), null, 1, 3 },
+                    { 4, "Does someone have trangia?", 2, null, null, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7554), null, null, 3 },
+                    { 6, "Ark Nova is the best!", null, 1, 5, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7559), null, null, 3 },
+                    { 7, "Is it one of the games in SM-competition of boardgames?", null, 1, 5, 3, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7561), null, null, 1 },
+                    { 9, "Me first Javascript!", null, 2, 8, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7566), null, null, 3 },
+                    { 10, "C# is the best", null, 2, 8, null, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7568), null, null, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -396,8 +397,8 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "EventId", "GuestCount", "LastUpdated", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8217), 1 },
-                    { 2, 2, 1, new DateTime(2023, 3, 20, 11, 53, 8, 164, DateTimeKind.Local).AddTicks(8222), 2 }
+                    { 1, 1, 1, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7586), 1 },
+                    { 2, 2, 1, new DateTime(2023, 3, 21, 14, 0, 28, 424, DateTimeKind.Local).AddTicks(7589), 2 }
                 });
 
             migrationBuilder.CreateIndex(

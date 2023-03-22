@@ -1,5 +1,7 @@
-﻿using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Linq;
@@ -15,10 +17,25 @@ namespace AlumniNetworkAPI.Services.Groups
             _context = dbContext;
         }
 
-        public Task<Group> Create(Group entity)
+        public async Task<Group> AddUserToGroup(int groupId, int userId)
         {
-            throw new NotImplementedException();
+            var group = await _context.Groups.Include(x => x.Users).Where(x => x.Id == groupId).FirstAsync();
+            var user = await _context.Users.FindAsync(userId);
+
+            group.Users.Add(user);
+            await _context.SaveChangesAsync();  
+
+            return group;
         }
+
+        public async Task<Group> Create(Group entity)
+        {
+            await _context.Groups.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+      
 
         public Task DeleteById(int id)
         {

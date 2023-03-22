@@ -89,14 +89,16 @@ namespace AlumniNetworkAPI.Models
                         Id = 1,
                         Name = "Experis workers",
                         Description = "Experis employees",
-                        IsPrivate = false
+                        IsPrivate = false,
+                        CreatorId = 1
                     },
                     new Group
                     {
                         Id = 2,
                         Name = "Noroff teachers",
                         Description = "The amazing teachers of noroff.",
-                        IsPrivate = true
+                        IsPrivate = true,
+                        CreatorId = 2
                     }
                 );
             modelBuilder.Entity<Topic>()
