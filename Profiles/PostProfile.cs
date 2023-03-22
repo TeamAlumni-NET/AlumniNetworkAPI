@@ -11,6 +11,9 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<CreatePostDto, Post>().ReverseMap();
             CreateMap<PostDto, Post>().ReverseMap();
             CreateMap<EditPostDto, Post>().ReverseMap();
+            CreateMap<ChildPostDto, Post>().ReverseMap();
+            CreateMap<ChildPostRootDto, ChildPostDto>().ReverseMap();
+
             CreateMap<Post, TimelinePostDto>()
                 .ForMember(dto => dto.User, options =>
                 options.MapFrom(postDomain => postDomain.User.Username))
@@ -19,7 +22,6 @@ namespace AlumniNetworkAPI.Profiles
                 .ForMember(dto => dto.Topic, options => 
                 options.MapFrom(postDomain => postDomain.Topic.Name));
             CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
-
         }
     }
 }
