@@ -65,10 +65,12 @@ namespace AlumniNetworkAPI.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPatch("{username}")]
-        public async Task<IActionResult> PatchUser(string username, UserEditDto userEditDto)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchUser(int id, UserEditDto userEditDto)
         {
-            if (username != userEditDto.Username)
+
+            if (id != userEditDto.Id)
+
             {
                 return BadRequest();
             }

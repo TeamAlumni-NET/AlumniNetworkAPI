@@ -31,24 +31,30 @@ namespace AlumniNetworkAPI.Controllers
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups(int userId)
         {
             var rawGroups = (_mapper.Map < IEnumerable < GroupDto >> (await _groupService.GetAll()));
-            //
-            var filteredGroups = rawGroups.Where(g => !Convert.ToBoolean(g.IsPrivate) || Convert.ToBoolean(g.IsPrivate) && g.Users.Contains(userId));
+            if(userId != null) {
+                var filteredGroups = rawGroups.Where(g => !Convert.ToBoolean(g.IsPrivate) || Convert.ToBoolean(g.IsPrivate) && g.Users.Contains(userId));
 
-            List<GroupUserDto> filteredGroupsForUser = new List<GroupUserDto> { };
+                List<GroupUserDto> filteredGroupsForUser = new List<GroupUserDto> { };
 
-            foreach (var group in filteredGroups)
-            {
-                filteredGroupsForUser.Add(new GroupUserDto()
+                foreach (var group in filteredGroups)
                 {
-                    Id = group.Id,
-                    Name = group.Name,
-                    Description = group.Description,
-                    IsPrivate = group.IsPrivate,
-                    IsMember = group.Users.Contains(userId)
-                });
-            }
+                    filteredGroupsForUser.Add(new GroupUserDto()
+                    {
+                        Id = group.Id,
+                        Name = group.Name,
+                        Description = group.Description,
+                        IsPrivate = group.IsPrivate,
+                        IsMember = group.Users.Contains(userId)
+                    });
+                }
 
-            return base.Ok(filteredGroupsForUser);
+                return base.Ok(filteredGroupsForUser);
+            }
+            else
+            {
+                return base.Ok(rawGroups);
+            }
+            
         }
 
         // GET: api/Groups/5
@@ -99,13 +105,36 @@ namespace AlumniNetworkAPI.Controllers
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Group>> PostGroup(Group @group)
+        public async Task<ActionResult<GroupDto>> CreateGroup(GroupCreateDto groupCreateDto, int userId)
         {
-            _context.Groups.Add(@group);
-            await _context.SaveChangesAsync();
+            var group = _mapper.Map<Group>(groupCreateDto);
+            await _groupService.Create(group);
+          
+            var groupDto = _mapper.Map<GroupDto>(group);
 
-            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
+            
+            int groupId = group.Id;
+
+            await _groupService.AddUserToGroup(groupId, userId);
+          
+
+            return CreatedAtAction(nameof(GetGroup), new { id = groupDto.Id }, groupDto);
+
         }
+
+
+        // POST: api/Groups/:groupId/join
+        [HttpPost("{id}/join")]
+        public async Task<ActionResult> JoinGroup(int id, int userId)
+        {
+            await _groupService.AddUserToGroup(id, userId);
+
+            return CreatedAtAction("JoinGroup", id);
+
+        }
+
+
+
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]

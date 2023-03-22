@@ -15,9 +15,23 @@ namespace AlumniNetworkAPI.Services.Topics
             _context = dbContext;
         }
 
-        public Task<Topic> Create(Topic entity)
+        public async Task<Topic> AddUserToTopic(int id, int userId)
         {
-            throw new NotImplementedException();
+            var topic = await _context.Topics.Include(x => x.Users).Where(x => x.Id == id).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            topic.Users.Add(user);
+            _context.Entry(topic).State= EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return topic;
+        }
+
+        public async Task<Topic> Create(Topic entity)
+        {
+            await _context.Topics.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public Task DeleteById(int id)

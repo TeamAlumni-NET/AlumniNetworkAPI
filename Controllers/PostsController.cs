@@ -70,6 +70,7 @@ namespace AlumniNetworkAPI.Controllers
         public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
             var post = _mapper.Map<Post>(createPostDto);
+            post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
             var postDto = _mapper.Map<PostDto>(post);
