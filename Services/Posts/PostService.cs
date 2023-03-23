@@ -115,7 +115,8 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(g => g.Id == groupid)
                 .Include(p => p.Posts)
                 .ThenInclude(p => p.ChildPosts)
-                .ThenInclude(c => c.User)
+                .ThenInclude(p => p.User)
+                .ThenInclude(p => p.Groups)
                 .Select(g => g.Posts.Where(p => p.Title != null))
                 .SingleOrDefaultAsync();
 
