@@ -1,7 +1,5 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.DTOs.EventDtos;
-using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -117,7 +115,5 @@ namespace AlumniNetworkAPI.Services.Events
             return entity;
 
         }
-
-
     }
 }

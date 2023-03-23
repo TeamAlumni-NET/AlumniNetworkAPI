@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
-    public class PostProfile: Profile
+    public class PostProfile : Profile
     {
-        public PostProfile() 
+        public PostProfile()
         {
             CreateMap<CreatePostDto, Post>().ReverseMap();
             CreateMap<PostDto, Post>().ReverseMap();
@@ -19,15 +19,20 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(postDomain => postDomain.User.Username))
                 .ForMember(dto => dto.Group, options =>
                 options.MapFrom(postDomain => postDomain.Group.Name))
-                .ForMember(dto => dto.Topic, options => 
-                options.MapFrom(postDomain => postDomain.Topic.Name));
+                .ForMember(dto => dto.Topic, options =>
+                options.MapFrom(postDomain => postDomain.Topic.Name))
+                .ForMember(dto => dto.ChildPosts, options =>
+                options.MapFrom(eventDomain => eventDomain.ChildPosts
+                .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content = post.Content }).ToList()));
             CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
-
             CreateMap<Post, PostByIdDto>()
                 .ForMember(dto => dto.User, options =>
                 options.MapFrom(postDomain => postDomain.User.Username))
                 .ForMember(dto => dto.picture, options =>
                 options.MapFrom(postDomain => postDomain.User.PictureUrl));
+            CreateMap<Post, PostWithCommentsDto>().ReverseMap();
+
+
         }
     }
 }
