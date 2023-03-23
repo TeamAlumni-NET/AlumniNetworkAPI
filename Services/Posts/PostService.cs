@@ -1,15 +1,18 @@
-﻿namespace AlumniNetworkAPI.Services.Posts
+﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace AlumniNetworkAPI.Services.Posts
 {
     public class PostService : IPostService
     {
         private readonly AlumniNetworkDBContext _dbContext;
-
-
         public PostService(AlumniNetworkDBContext dBContext)
         {
             _dbContext = dBContext;
         }
-
         public async Task<IEnumerable<Post>> GetAll()
         {
             return await _dbContext.Posts.ToListAsync();
@@ -21,7 +24,6 @@
                 .ToListAsync();
             var result = new ChildPostRootDto();
             result.ChildPosts = new List<ChildPostDto>();
-
 
             foreach (var post in postList)
             {
@@ -35,15 +37,9 @@
                 single.TimeStamp = post.TimeStamp;
                 single.username = user.Username;
                 result.ChildPosts.Add(single);
-
-
             }
-
             return result;
         }
-
-
-
         public async Task<Post> GetById(int id)
         {
             var post = await _dbContext.Posts.FindAsync(id);
@@ -56,7 +52,6 @@
 
             return post;
         }
-
         public async Task<Post> Create(Post entity)
         {
             _dbContext.Posts.Add(entity);
@@ -64,7 +59,6 @@
 
             return entity;
         }
-
         public async Task<Post> Update(Post entity)
         {
             var foundPost = await _dbContext.Posts.AnyAsync(x => x.Id == entity.Id);
@@ -77,8 +71,6 @@
             await _dbContext.SaveChangesAsync();
             return entity;
         }
-
-
         public async Task DeleteById(int id)
         {
             var post = await _dbContext.Posts.FindAsync(id);
@@ -89,14 +81,15 @@
             _dbContext.Posts.Remove(post);
             await _dbContext.SaveChangesAsync();
         }
-
         public async Task<IEnumerable<Post>> GetTimeline(int userId)
         {
             var posts = await _dbContext.Posts
                 .Where(p => (p.Group.Users.Any(u => u.Id == userId)) || (p.Topic.Users.Any(u => u.Id == userId)))
+                .Where(p => p.Title != null)
                 .Include(p => p.Group)
                 .Include(p => p.Topic)
                 .Include(p => p.User)
+                .Include(p => p.ChildPosts)
                 .ToListAsync();
 
             return posts;
@@ -105,10 +98,13 @@
         {
             var list = await _dbContext.Groups
                 .Where(g => g.Id == groupid)
-                .Include(p => p.Posts.Where(p => p.Title != null))
+                .Include(p => p.Posts)
+                .ThenInclude(p => p.ChildPosts)
+                .ThenInclude(c => c.User)
+                .Select(g => g.Posts.Where(p => p.Title != null))
                 .SingleOrDefaultAsync();
 
-            return list.Posts;
+            return list;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(postDomain => postDomain.Posts.Select(post => $"{post.Id}").ToList()))
                 .ForMember(dto => dto.Groups, options =>
                 options.MapFrom(groupDomain => groupDomain.Groups.Select(group => $"{group.Id}").ToList()));
-            
+
             CreateMap<EventDto, Event>().ReverseMap();
 
             CreateMap<Event, EventNamesDto>()
@@ -26,9 +26,9 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(eventDomain => eventDomain.Topics.Select(g => g.Name).ToList()))
                 .ForMember(dto => dto.TimeStamp, options =>
                 options.MapFrom(eventDomain => eventDomain.LastUpdated))
-                .ForMember(dto => dto.Posts, options =>
+                .ForMember(dto => dto.ChildPosts, options =>
                 options.MapFrom(eventDomain => eventDomain.Posts
-                .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content =post.Content }).ToList()));
+                .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content = post.Content }).ToList()));
 
             CreateMap<Event, EventCalendarDto>()
                 .ForMember(dto => dto.title, opt =>
