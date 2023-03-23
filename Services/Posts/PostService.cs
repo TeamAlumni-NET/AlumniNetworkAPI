@@ -36,14 +36,29 @@ namespace AlumniNetworkAPI.Services.Posts
                 single.Content = post.Content;
                 single.TimeStamp = post.TimeStamp;
                 single.username = user.Username;
+                single.pictureUrl = user.PictureUrl;
+                var targetUser = await _dbContext.Users
+                    .Where(u => u.Id == post.TargetUserId)
+                    .FirstOrDefaultAsync();
+                if (post.TargetUserId.HasValue)
+                {
+                    single.targetUser = targetUser.Username;
+
+                }
+             
+                
                 result.ChildPosts.Add(single);
             }
             return result;
         }
         public async Task<Post> GetById(int id)
         {
-            var post = await _dbContext.Posts.FindAsync(id);
-            await _dbContext.Posts.FindAsync(id);
+            var post = await _dbContext.Posts
+                .Where(p => p.Id == id)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync();
+           
+            
 
             if (post == null)
             {
