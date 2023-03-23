@@ -22,6 +22,12 @@ namespace AlumniNetworkAPI.Profiles
                 .ForMember(dto => dto.Topic, options => 
                 options.MapFrom(postDomain => postDomain.Topic.Name));
             CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
+
+            CreateMap<Post, PostByIdDto>()
+                .ForMember(dto => dto.User, options =>
+                options.MapFrom(postDomain => postDomain.User.Username))
+                .ForMember(dto => dto.picture, options =>
+                options.MapFrom(postDomain => postDomain.User.PictureUrl));
         }
     }
 }

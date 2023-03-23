@@ -6,6 +6,9 @@
         public string Content { get; set; }
         public DateTime TimeStamp { get; set; }
         public string username { get; set; }
+
+        public string pictureUrl { get; set; }
+        public string targetUser { get; set; }
         
     }
 }

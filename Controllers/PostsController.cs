@@ -49,11 +49,11 @@ namespace AlumniNetworkAPI.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostDto>> GetPost(int id)
+        public async Task<ActionResult<PostByIdDto>> GetPost(int id)
         {
             try
             {
-                return Ok(_mapper.Map<PostDto>(await _postService.GetById(id)));
+                return Ok(_mapper.Map<PostByIdDto>(await _postService.GetById(id)));
             }
             catch (PostNotFoundException ex)
             {
