@@ -1,7 +1,6 @@
 ﻿using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace AlumniNetworkAPI.Models
 {
     public class AlumniNetworkDBContext : DbContext
@@ -192,17 +191,44 @@ namespace AlumniNetworkAPI.Models
                          TimeStamp = DateTime.Now,
                          Title = "Boardgames",
                          Content = "What boardgames people like to play?",
-                         UserId= 1,
+                         UserId = 1,
                          GroupId = 1,
                      },
+                      new Post
+                      {
+                          Id = 11,
+                          TimeStamp = DateTime.Now,
+                          Title = "Lan party",
+                          Content = "What games people like to play?",
+                          UserId = 1,
+                          GroupId = 1,
+                      },
+                      new Post
+                      {
+                          Id = 12,
+                          TimeStamp = DateTime.Now,
+                          Content = "League of legends",
+                          UserId = 3,
+                          GroupId = 1,
+                          ParentPostId = 11,
+                      },
+                       new Post
+                       {
+                           Id = 13,
+                           TimeStamp = DateTime.Now,
+                           Content = "Omg who plays leage 2023?!",
+                           UserId = 3,
+                           GroupId = 1,
+                           ParentPostId = 12,
+                       },
                      new Post
                      {
                          Id = 6,
                          TimeStamp = DateTime.Now,
                          Content = "Ark Nova is the best!",
-                         UserId= 3,
+                         UserId = 3,
                          GroupId = 1,
-                         ParentPostId= 5,
+                         ParentPostId = 5,
                      },
                      new Post
                      {
@@ -212,7 +238,7 @@ namespace AlumniNetworkAPI.Models
                          UserId = 1,
                          GroupId = 1,
                          ParentPostId = 5,
-                         TargetUserId= 3,
+                         TargetUserId = 3,
                      },
                      new Post
                      {

@@ -1,7 +1,4 @@
-﻿using AlumniNetworkAPI.Models.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
+﻿namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
 {
     public class GroupUserDto
     {
@@ -10,6 +7,5 @@ namespace AlumniNetworkAPI.Models.DTOs.GroupDtos
         public string Description { get; set; }
         public bool IsPrivate { get; set; }
         public bool IsMember { get; set; }
-
     }
 }
