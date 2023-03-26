@@ -6,7 +6,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -89,7 +88,12 @@ namespace AlumniNetworkAPI.Controllers
             return CreatedAtAction("JoinTopic", id);
 
         }
-
+        [HttpPatch("{id}/leave")]
+        public async Task<ActionResult> LeaveTopic(int id, int userId)
+        {
+            await _topicService.RemoveUserFromTopic(id, userId);
+            return NoContent();
+        }
 
 
         // PUT: api/Topics/5
@@ -123,7 +127,7 @@ namespace AlumniNetworkAPI.Controllers
             return NoContent();
         }
 
-        
+
 
         // DELETE: api/Topics/5
         [HttpDelete("{id}")]

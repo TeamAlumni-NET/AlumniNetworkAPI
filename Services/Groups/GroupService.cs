@@ -1,10 +1,6 @@
-﻿using AlumniNetworkAPI.Exceptions;
-using AlumniNetworkAPI.Models;
+﻿using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.Linq;
 
 namespace AlumniNetworkAPI.Services.Groups
 {
@@ -23,7 +19,19 @@ namespace AlumniNetworkAPI.Services.Groups
             var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
             group.Users.Add(user);
-            _context.Entry(group).State= EntityState.Modified;
+            _context.Entry(group).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return group;
+        }
+
+        public async Task<Group> RemoveUserToGroup(int groupId, int userId)
+        {
+            var group = await _context.Groups.Include(x => x.Users).Where(x => x.Id == groupId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            group.Users.Remove(user);
+            _context.Entry(group).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return group;
@@ -35,9 +43,6 @@ namespace AlumniNetworkAPI.Services.Groups
             await _context.SaveChangesAsync();
             return entity;
         }
-
-      
-
         public Task DeleteById(int id)
         {
             throw new NotImplementedException();
