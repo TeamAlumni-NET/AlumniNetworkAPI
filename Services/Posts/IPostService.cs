@@ -9,5 +9,6 @@ namespace AlumniNetworkAPI.Services.Posts
         Task<IEnumerable<Post>> GetTimeline(int userId);
         Task<IEnumerable<Post>> GetGroup(int groupId);
         Task<IEnumerable<Post>> GetTopicsPosts(int topicsId);
+        Task<IEnumerable<Post>> GetDashboard(int userId);
     }
 }

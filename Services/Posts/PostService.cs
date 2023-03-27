@@ -110,6 +110,20 @@ namespace AlumniNetworkAPI.Services.Posts
 
             return posts;
         }
+        public async Task<IEnumerable<Post>> GetDashboard(int userId)
+        {
+            var posts = await _dbContext.Posts
+                .Where(p => (p.Group.Users.Any(u => u.Id == userId)) || (p.Topic.Users.Any(u => u.Id == userId)) || (p.ChildPosts.Any(c => c.UserId == userId)))
+                .Where(p => p.Title != null)
+                .Include(p => p.Group)
+                .Include(p => p.Topic)
+                .Include(p => p.User)
+                .Include(p => p.ChildPosts)
+                .ThenInclude(c => c.User)
+                .ToListAsync();
+
+            return posts;
+        }
         public async Task<IEnumerable<Post>> GetGroup(int groupid)
         {
             var list = await _dbContext.Groups
