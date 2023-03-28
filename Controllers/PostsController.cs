@@ -79,8 +79,7 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
-
-
+ 
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
