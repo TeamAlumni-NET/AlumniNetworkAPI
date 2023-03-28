@@ -114,16 +114,6 @@ namespace AlumniNetworkAPI.Controllers
 
         // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        /*
-         * Input for postEvent needs following details:
-         *  "lastUpdated": "0001-01-01T00:00:00",
-         *  "name": "String",
-         *  "description": "String",
-         *  "allowGuests": true,
-         *  "startTime": "2023-07-06T17:30:00",
-         *  "endTime": "2023-07-06T21:00:00",
-         *  "eventCreatorId": 1,
-         */
         [HttpPost]
         public async Task<ActionResult<EventDto>> CreateEvent(EventCreateDto eventCreateDto)
         {
@@ -134,7 +124,10 @@ namespace AlumniNetworkAPI.Controllers
 
             var eventDto = _mapper.Map<EventDto>(eventT);
 
-          
+            int eventId = eventT.Id;
+
+            await _eventService.AddUserToEvent(eventId, eventT.EventCreatorId);
+
 
             return CreatedAtAction(nameof(GetEvent), new { id = eventDto }, eventDto);
         }
@@ -162,20 +155,6 @@ namespace AlumniNetworkAPI.Controllers
 
         // PUT: api/Events/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
-        /*
-         * Swagger test request body:
-         *  {
-        "id": 4,
-        "lastUpdated": "2023-03-13T08:28:18.128",
-        "name": "TestiUpdate",
-        "description": "For testing update",
-        "allowGuests": true,
-        "startTime": "2023-04-13T08:28:18.128",
-        "endTime": "2023-04-13T08:28:18.128",
-        "eventCreatorId": 2
-        }
-        */
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent(int id, Event entity)
         {
