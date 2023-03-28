@@ -1,8 +1,6 @@
 ﻿using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.Linq;
 
 namespace AlumniNetworkAPI.Services.Topics
 {
@@ -21,11 +19,12 @@ namespace AlumniNetworkAPI.Services.Topics
             var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
             topic.Users.Add(user);
-            _context.Entry(topic).State= EntityState.Modified;
+            _context.Entry(topic).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return topic;
         }
+
 
         public async Task<Topic> Create(Topic entity)
         {
@@ -47,6 +46,17 @@ namespace AlumniNetworkAPI.Services.Topics
         public Task<Topic> GetById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task RemoveUserFromTopic(int topicId, int userId)
+        {
+            var topic = await _context.Topics.Include(x => x.Users).Where(x => x.Id == topicId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            topic.Users.Remove(user);
+            _context.Entry(topic).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
         }
 
         public Task<Topic> Update(Topic entity)

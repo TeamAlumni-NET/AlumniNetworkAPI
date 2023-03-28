@@ -81,11 +81,30 @@ namespace AlumniNetworkAPI.Services.Events
 
             return EventsList;
         }
+        public async Task<IEnumerable<Event>> GetEventsByTopic(int id)
+        {
+            var Events = await _dbContext.Topics
+                .Where(x => x.Id == id)
+                .Include(x => x.Events)
+                .Select(x => x.Events.Where(e => e.AllowGuests == true))
+                .SingleOrDefaultAsync();
+
+            return Events;
+        }
+        public async Task<IEnumerable<Event>> GetEventsByGroup(int id)
+        {
+            var Events = await _dbContext.Groups
+                .Where(x => x.Id == id)
+                .Include(x => x.Events)
+                .Select(x => x.Events.Where(e => e.AllowGuests == true))
+                .SingleOrDefaultAsync();
+
+            return Events;
+        }
         public async Task<Event> Create(Event entity)
         {
-            _dbContext.Events.Add(entity);
+            await _dbContext.Events.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
-
             return entity;
         }
 
