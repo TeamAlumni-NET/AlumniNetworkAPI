@@ -1,4 +1,6 @@
-﻿namespace AlumniNetworkAPI.Models.DTOs.PostDtos
+﻿using AlumniNetworkAPI.Models.DTOs.UserDtos;
+
+namespace AlumniNetworkAPI.Models.DTOs.PostDtos
 {
     public class TimelinePostDto
     {
@@ -6,7 +8,7 @@
         public DateTime TimeStamp { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }
-        public string User { get; set; }
+        public UserDto User { get; set; }
         public string? Topic { get; set; }
         public string? Group { get; set; }
         public ICollection<SimplePostDto>? ChildPosts { get; set; }

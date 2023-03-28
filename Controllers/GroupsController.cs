@@ -6,7 +6,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -30,8 +29,9 @@ namespace AlumniNetworkAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups(int userId)
         {
-            var rawGroups = (_mapper.Map < IEnumerable < GroupDto >> (await _groupService.GetAll()));
-            if(userId != null) {
+            var rawGroups = (_mapper.Map<IEnumerable<GroupDto>>(await _groupService.GetAll()));
+            if (userId != null)
+            {
                 var filteredGroups = rawGroups.Where(g => !Convert.ToBoolean(g.IsPrivate) || Convert.ToBoolean(g.IsPrivate) && g.Users.Contains(userId));
 
                 List<GroupUserDto> filteredGroupsForUser = new List<GroupUserDto> { };
@@ -54,7 +54,7 @@ namespace AlumniNetworkAPI.Controllers
             {
                 return base.Ok(rawGroups);
             }
-            
+
         }
 
         // GET: api/Groups/5
@@ -109,14 +109,14 @@ namespace AlumniNetworkAPI.Controllers
         {
             var group = _mapper.Map<Group>(groupCreateDto);
             await _groupService.Create(group);
-          
+
             var groupDto = _mapper.Map<GroupDto>(group);
 
-            
+
             int groupId = group.Id;
 
             await _groupService.AddUserToGroup(groupId, userId);
-          
+
 
             return CreatedAtAction(nameof(GetGroup), new { id = groupDto.Id }, groupDto);
 
@@ -131,6 +131,12 @@ namespace AlumniNetworkAPI.Controllers
 
             return CreatedAtAction("JoinGroup", id);
 
+        }
+        [HttpPatch("{id}/leave")]
+        public async Task<ActionResult> LeaveGroup(int id, int userId)
+        {
+            await _groupService.RemoveUserToGroup(id, userId);
+            return NoContent();
         }
 
 

@@ -1,10 +1,8 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace AlumniNetworkAPI.Services.Users
 {
@@ -21,7 +19,7 @@ namespace AlumniNetworkAPI.Services.Users
         public async Task<User> Create(User entity)
         {
             var exists = await _dbContext.Users.Where(x => x.Username == entity.Username).ToListAsync();
-            foreach (var user in exists) { Console.WriteLine(user); }
+
             if (exists.Any())
             {
                 throw new UserAlreadyExistsException(entity.Username);
@@ -31,6 +29,7 @@ namespace AlumniNetworkAPI.Services.Users
                 _dbContext.Users.Add(entity);
                 await _dbContext.SaveChangesAsync();
             }
+
 
             return entity;
         }

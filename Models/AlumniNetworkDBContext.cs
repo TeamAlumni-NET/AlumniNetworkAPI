@@ -159,6 +159,32 @@ namespace AlumniNetworkAPI.Models
                         UserId = 1,
                         TopicId = 1,
                     },
+                     new Post
+                     {
+                         Id = 20,
+                         TimeStamp = DateTime.Now,
+                         Title = "Gamers!",
+                         Content = "Only videogames!.",
+                         UserId = 1,
+                         TopicId = 1,
+                     },
+                     new Post
+                     {
+                         Id = 21,
+                         TimeStamp = DateTime.Now,
+                         Content = "Ayyyyyy!.",
+                         UserId = 1,
+                         TopicId = 1,
+                         ParentPostId = 20,
+                     },
+                     new Post
+                     {
+                         Id = 22,
+                         TimeStamp = DateTime.Now,
+                         Content = "You're such a noob!.",
+                         UserId = 2,
+                         TopicId = 1,
+                     },
                     new Post
                     {
                         Id = 2,

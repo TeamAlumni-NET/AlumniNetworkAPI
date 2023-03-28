@@ -6,7 +6,6 @@ using AlumniNetworkAPI.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -91,9 +90,9 @@ namespace AlumniNetworkAPI.Controllers
 
             return NoContent();
         }
-            // POST: api/Users
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPost]
+        // POST: api/Users
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
         public async Task<ActionResult<UserCreateDto>> PostUser(UserCreateDto user)
         {
             try

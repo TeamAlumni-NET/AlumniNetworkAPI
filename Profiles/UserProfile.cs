@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace AlumniNetworkAPI.Profiles
 {
-    public class UserProfile: Profile
+    public class UserProfile : Profile
     {
-        public UserProfile() 
+        public UserProfile()
         {
-            CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
 
             CreateMap<UserEditDto, User>().ReverseMap();
 
