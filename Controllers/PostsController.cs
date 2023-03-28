@@ -83,6 +83,24 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        [HttpGet("thread/event/{id}")]
+        public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetEventThread(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<ChildPostDto>>(await _postService.GetAllChildPostsEvent(id)));
+
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+
+
 
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

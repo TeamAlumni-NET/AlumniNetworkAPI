@@ -24,10 +24,21 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.ParentPostId == id)
                 .Include(p => p.User)
                 .ToListAsync();
-            
             return postList;
         }
-        public async Task<Post> GetById(int id)
+
+        public async Task<IEnumerable<Post>> GetAllChildPostsEvent(int id)
+        {
+            var postList = await _dbContext.Posts
+                .Where(p => p.EventId == id)
+                .Include(p => p.User)
+                .ToListAsync();
+            var result = new ChildPostRootDto();
+            result.ChildPosts = new List<ChildPostDto>();
+            return postList;
+        }
+
+            public async Task<Post> GetById(int id)
         {
             var post = await _dbContext.Posts
                 .Where(p => p.Id == id)
