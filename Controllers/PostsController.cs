@@ -91,45 +91,24 @@ namespace AlumniNetworkAPI.Controllers
         {
             var userData = createPostDto.User;
             var newPost = _mapper.Map<NewPostDto>(createPostDto);
-            Console.WriteLine("\n\n\n Step1");
-            foreach (PropertyInfo propertyInfo in newPost.GetType().GetProperties())
-            {
-                Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(newPost)}");
-            }
             var post = _mapper.Map<Post>(newPost);
-            Console.WriteLine("\n\n\n Step 2");
-            foreach (PropertyInfo propertyInfo in post.GetType().GetProperties())
-            {
-                Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(post)}");
-            }
             post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
             if (post.ParentPostId != null)
             {
                 var answer = _mapper.Map<ChildPostDto>(post);
-                Console.WriteLine("\n\n\n Step 3");
-                foreach (PropertyInfo propertyInfo in answer.GetType().GetProperties())
-                {
-                    Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(answer)}");
-                }
                 answer.user = _mapper.Map<UserSimpleDto>(userData);
                 return CreatedAtAction(nameof(GetPost), new { id = answer.Id }, answer);
             }
             var postDto = _mapper.Map<TimelinePostDto>(post);
             postDto.User = userData;
-            return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
-
-
         }
-
-
-
 
         // PUT: api/Posts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, EditPostDto editPostDto)
+        public async Task<ActionResult<PostDto>> PutPost(int id, EditPostDto editPostDto)
         {
             if (id != editPostDto.Id)
             {
@@ -138,6 +117,10 @@ namespace AlumniNetworkAPI.Controllers
 
             try
             {
+                foreach (PropertyInfo propertyInfo in editPostDto.GetType().GetProperties())
+                {
+                    Console.WriteLine($"{propertyInfo}: {propertyInfo.GetValue(editPostDto)}");
+                }
                 await _postService.Update(_mapper.Map<Post>(editPostDto));
             }
             catch (PostNotFoundException ex)
@@ -148,7 +131,7 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetPost), new { id = editPostDto.Id }, editPostDto);
         }
 
 

@@ -55,7 +55,9 @@ namespace AlumniNetworkAPI.Services.Posts
             {
                 throw new PostNotFoundException(entity.Id);
             }
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Posts.Attach(entity);
+            _dbContext.Entry(entity).Property(p => p.Title).IsModified = true;
+            _dbContext.Entry(entity).Property(p => p.Content).IsModified = true;
             await _dbContext.SaveChangesAsync();
             return entity;
         }
