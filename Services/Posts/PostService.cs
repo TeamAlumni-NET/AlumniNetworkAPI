@@ -3,6 +3,7 @@ using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AlumniNetworkAPI.Services.Posts
 {
@@ -23,8 +24,6 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.ParentPostId == id)
                 .Include(p => p.User)
                 .ToListAsync();
-            var result = new ChildPostRootDto();
-            result.ChildPosts = new List<ChildPostDto>();
             return postList;
         }
 
@@ -45,9 +44,6 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.Id == id)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync();
-
-
-
             if (post == null)
             {
                 throw new PostNotFoundException(id);

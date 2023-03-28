@@ -44,6 +44,10 @@ namespace AlumniNetworkAPI.Profiles
                 }))
                 .ForMember(dto => dto.targetUser, options =>
                 options.MapFrom(postDomain => postDomain.TargetUser.Username));
+            CreateMap<CreatePostDto, NewPostDto>()
+                .ForMember(dto => dto.UserId, options =>
+                options.MapFrom(postDomain => postDomain.User.Id));
+            CreateMap<NewPostDto, Post>().ReverseMap();
         }
 
         // options.MapFrom(eventDomain => eventDomain.Posts .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content = post.Content
