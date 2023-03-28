@@ -1,10 +1,12 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Posts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -87,13 +89,38 @@ namespace AlumniNetworkAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
-            var post = _mapper.Map<Post>(createPostDto);
+            var userData = createPostDto.User;
+            var newPost = _mapper.Map<NewPostDto>(createPostDto);
+            Console.WriteLine("\n\n\n Step1");
+            foreach (PropertyInfo propertyInfo in newPost.GetType().GetProperties())
+            {
+                Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(newPost)}");
+            }
+            var post = _mapper.Map<Post>(newPost);
+            Console.WriteLine("\n\n\n Step 2");
+            foreach (PropertyInfo propertyInfo in post.GetType().GetProperties())
+            {
+                Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(post)}");
+            }
             post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
-            var postDto = _mapper.Map<PostDto>(post);
-
+            if (post.ParentPostId != null)
+            {
+                var answer = _mapper.Map<ChildPostDto>(post);
+                Console.WriteLine("\n\n\n Step 3");
+                foreach (PropertyInfo propertyInfo in answer.GetType().GetProperties())
+                {
+                    Console.WriteLine($"{propertyInfo} {propertyInfo.GetValue(answer)}");
+                }
+                answer.user = _mapper.Map<UserSimpleDto>(userData);
+                return CreatedAtAction(nameof(GetPost), new { id = answer.Id }, answer);
+            }
+            var postDto = _mapper.Map<TimelinePostDto>(post);
+            postDto.User = userData;
             return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
+
+
         }
 
 

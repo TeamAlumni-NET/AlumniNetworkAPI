@@ -3,6 +3,7 @@ using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AlumniNetworkAPI.Services.Posts
 {
@@ -23,33 +24,7 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.ParentPostId == id)
                 .Include(p => p.User)
                 .ToListAsync();
-            var result = new ChildPostRootDto();
-            result.ChildPosts = new List<ChildPostDto>();
-            /*
-            foreach (var post in postList)
-            {
-                var single = new ChildPostDto();
-                var user = await _dbContext.Users
-                .Where(u => u.Id == post.UserId)
-                .FirstOrDefaultAsync();
-
-                single.Id = post.Id;
-                single.Content = post.Content;
-                single.TimeStamp = post.TimeStamp;
-                single.username = user.Username;
-                single.pictureUrl = user.PictureUrl;
-                var targetUser = await _dbContext.Users
-                    .Where(u => u.Id == post.TargetUserId)
-                    .FirstOrDefaultAsync();
-                if (post.TargetUserId.HasValue)
-                {
-                    single.targetUser = targetUser.Username;
-
-                }
-
-
-                result.ChildPosts.Add(single);
-            }*/
+            
             return postList;
         }
         public async Task<Post> GetById(int id)
@@ -58,9 +33,6 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.Id == id)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync();
-
-
-
             if (post == null)
             {
                 throw new PostNotFoundException(id);
