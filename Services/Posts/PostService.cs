@@ -17,14 +17,15 @@ namespace AlumniNetworkAPI.Services.Posts
         {
             return await _dbContext.Posts.ToListAsync();
         }
-        public async Task<ChildPostRootDto> GetAllChildPosts(int id)
+        public async Task<IEnumerable<Post>> GetAllChildPosts(int id)
         {
             var postList = await _dbContext.Posts
                 .Where(p => p.ParentPostId == id)
+                .Include(p => p.User)
                 .ToListAsync();
             var result = new ChildPostRootDto();
             result.ChildPosts = new List<ChildPostDto>();
-
+            /*
             foreach (var post in postList)
             {
                 var single = new ChildPostDto();
@@ -48,8 +49,8 @@ namespace AlumniNetworkAPI.Services.Posts
 
 
                 result.ChildPosts.Add(single);
-            }
-            return result;
+            }*/
+            return postList;
         }
         public async Task<Post> GetById(int id)
         {

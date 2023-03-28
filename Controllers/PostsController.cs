@@ -65,11 +65,12 @@ namespace AlumniNetworkAPI.Controllers
         }
 
         [HttpGet("thread/{id}")]
-        public async Task<ActionResult<ChildPostRootDto>> GetPostThread(int id)
+        public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetPostThread(int id)
         {
             try
             {
-                return Ok(_mapper.Map<ChildPostRootDto>(await _postService.GetAllChildPosts(id)));
+                return Ok(_mapper.Map < IEnumerable<ChildPostDto>>(await _postService.GetAllChildPosts(id)));
+                
             }
             catch (PostNotFoundException ex)
             {
