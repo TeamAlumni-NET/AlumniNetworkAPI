@@ -1,10 +1,13 @@
 ﻿using AlumniNetworkAPI.Exceptions;
+using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Events;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -14,12 +17,14 @@ namespace AlumniNetworkAPI.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventService _eventService;
+        private readonly AlumniNetworkDBContext _context;
         private readonly IMapper _mapper;
 
-        public EventsController(IEventService eventService, IMapper mapper)
+        public EventsController(IEventService eventService, IMapper mapper, AlumniNetworkDBContext context)
         {
             _eventService = eventService;
             _mapper = mapper;
+            _context = context;
         }
 
         // GET: api/Events
@@ -93,6 +98,20 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        // GET: api/Events/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Event>> GetEvent(int id)
+        {
+            var eventT = await _context.Events.FindAsync(id);
+
+            if (eventT == null)
+            {
+                return NotFound();
+            }
+
+            return eventT;
+        }
+
         // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         /*
@@ -106,9 +125,18 @@ namespace AlumniNetworkAPI.Controllers
          *  "eventCreatorId": 1,
          */
         [HttpPost]
-        public async Task<ActionResult<Event>> PostEvent(Event entity)
+        public async Task<ActionResult<EventDto>> CreateEvent(EventCreateDto eventCreateDto)
         {
-            return CreatedAtAction("GetEvent", new { id = entity.Id }, await _eventService.Create(entity));
+            var eventT = _mapper.Map<Event>(eventCreateDto);
+            eventT.LastUpdated = DateTime.Now;
+
+            await _eventService.Create(eventT);
+
+            var eventDto = _mapper.Map<EventDto>(eventT);
+
+          
+
+            return CreatedAtAction(nameof(GetEvent), new { id = eventDto }, eventDto);
         }
 
 

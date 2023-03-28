@@ -103,9 +103,8 @@ namespace AlumniNetworkAPI.Services.Events
         }
         public async Task<Event> Create(Event entity)
         {
-            _dbContext.Events.Add(entity);
+            await _dbContext.Events.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
-
             return entity;
         }
 
