@@ -45,8 +45,8 @@ namespace AlumniNetworkAPI.Services.Posts
                     single.targetUser = targetUser.Username;
 
                 }
-             
-                
+
+
                 result.ChildPosts.Add(single);
             }
             return result;
@@ -57,8 +57,8 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(p => p.Id == id)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync();
-           
-            
+
+
 
             if (post == null)
             {
@@ -115,8 +115,23 @@ namespace AlumniNetworkAPI.Services.Posts
                 .Where(g => g.Id == groupid)
                 .Include(p => p.Posts)
                 .ThenInclude(p => p.ChildPosts)
-                .ThenInclude(c => c.User)
+                .ThenInclude(p => p.User)
+                .ThenInclude(p => p.Groups)
                 .Select(g => g.Posts.Where(p => p.Title != null))
+                .SingleOrDefaultAsync();
+
+            return list;
+        }
+
+        public async Task<IEnumerable<Post>> GetTopicsPosts(int topicsId)
+        {
+            var list = await _dbContext.Topics
+                .Where(t => t.Id == topicsId)
+                .Include(t => t.Posts)
+                .ThenInclude(t => t.ChildPosts)
+                .ThenInclude(t => t.User)
+                .ThenInclude(t => t.Topics)
+                .Select(g => g.Posts.Where(t => t.Title != null))
                 .SingleOrDefaultAsync();
 
             return list;

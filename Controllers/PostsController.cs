@@ -35,6 +35,10 @@ namespace AlumniNetworkAPI.Controllers
             {
                 return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetGroup(userId)));
             }
+            else if (target == "topic")
+            {
+                return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetTopicsPosts(userId)));
+            }
             else
             {
                 return Ok(_mapper.Map<IEnumerable<PostDto>>(await _postService.GetAll()));

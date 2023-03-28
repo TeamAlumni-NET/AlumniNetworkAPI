@@ -67,6 +67,36 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
+        [HttpGet("topic/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetTopicEvents(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetEventsByTopic(id)));
+            }
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+        [HttpGet("group/{id}")]
+        public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetGroupEvents(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<EventCalendarDto>>(await _eventService.GetEventsByGroup(id)));
+            }
+            catch (EventNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
 
         // GET: api/Events/5
         [HttpGet("{id}")]
