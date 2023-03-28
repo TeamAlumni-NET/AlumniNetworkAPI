@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -97,6 +98,7 @@ namespace AlumniNetworkAPI.Controllers
         public async Task<ActionResult<EventDto>> CreateEvent(EventCreateDto eventCreateDto)
         {
             var eventT = _mapper.Map<Event>(eventCreateDto);
+            eventT.LastUpdated = DateTime.Now;
 
             await _eventService.Create(eventT);
 
