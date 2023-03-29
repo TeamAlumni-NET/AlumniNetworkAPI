@@ -315,7 +315,7 @@ namespace AlumniNetworkAPI.Models
                          TimeStamp = DateTime.Now,
                          Content = "Not even pony race?",
                          UserId = 2,
-                         EventId = 2,
+                         EventId = 1,
                          TargetUserId= 1,
                      },
                      new Post
