@@ -112,6 +112,7 @@ namespace AlumniNetworkAPI.Services.Posts
         }
         public async Task<IEnumerable<Post>> GetGroup(int groupid)
         {
+            /*
             var list = await _dbContext.Groups
                 .Where(g => g.Id == groupid)
                 .Include(p => p.Posts)
@@ -120,8 +121,21 @@ namespace AlumniNetworkAPI.Services.Posts
                 .ThenInclude(p => p.Groups)
                 .Select(g => g.Posts.Where(p => p.Title != null))
                 .SingleOrDefaultAsync();
+            
+            */
+            var posts = await _dbContext.Posts
+                .Where(p => p.GroupId == groupid)
+                .Where(p => p.Title != null)
+                .Include(p => p.Group)
+                .Include(p => p.Topic)
+                .Include(p => p.User)
+                .Include(p => p.ChildPosts)
+                .ThenInclude(c => c.User)
+                .ToListAsync();
 
-            return list;
+            return posts;
+            //return list;
+
         }
 
         public async Task<IEnumerable<Post>> GetTopicsPosts(int topicsId)
