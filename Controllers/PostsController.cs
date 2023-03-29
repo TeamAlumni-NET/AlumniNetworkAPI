@@ -116,7 +116,7 @@ namespace AlumniNetworkAPI.Controllers
             post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
-            if (post.ParentPostId != null)
+            if (post.ParentPostId != null || post.EventId != null)
             {
                 var answer = _mapper.Map<ChildPostDto>(post);
                 answer.user = _mapper.Map<UserSimpleDto>(userData);
@@ -139,10 +139,6 @@ namespace AlumniNetworkAPI.Controllers
 
             try
             {
-                foreach (PropertyInfo propertyInfo in editPostDto.GetType().GetProperties())
-                {
-                    Console.WriteLine($"{propertyInfo}: {propertyInfo.GetValue(editPostDto)}");
-                }
                 await _postService.Update(_mapper.Map<Post>(editPostDto));
             }
             catch (PostNotFoundException ex)

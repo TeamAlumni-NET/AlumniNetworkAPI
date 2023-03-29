@@ -26,7 +26,12 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<Post, SimplePostDto>()
             .ForMember(dto => dto.User, options =>
             options.MapFrom(postDomain => postDomain.User.Username));
-            CreateMap<Post, PostByIdDto>();
+
+            CreateMap<Post, PostByIdDto>()
+                .ForMember(dto => dto.User, options =>
+                options.MapFrom(postDomain => postDomain.User.Username))
+                .ForMember(dto => dto.picture, options =>
+                options.MapFrom(postDomain => postDomain.User.PictureUrl));
 
             CreateMap<Post, ChildPostDto>()
                 .ForMember(dto => dto.user, options =>
@@ -40,12 +45,12 @@ namespace AlumniNetworkAPI.Profiles
                 }))
                 .ForMember(dto => dto.targetUser, options =>
                 options.MapFrom(postDomain => postDomain.TargetUser.Username));
+
             CreateMap<CreatePostDto, NewPostDto>()
                 .ForMember(dto => dto.UserId, options =>
                 options.MapFrom(postDomain => postDomain.User.Id));
+
             CreateMap<NewPostDto, Post>().ReverseMap();
         }
-
-        // options.MapFrom(eventDomain => eventDomain.Posts .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content = post.Content
     }
 }

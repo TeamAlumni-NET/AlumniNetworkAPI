@@ -13,6 +13,8 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<Group, GroupDto>()
                 .ForMember(dto => dto.Users, options =>
                 options.MapFrom(groupDomain => groupDomain.Users.Select(u => u.Id).ToList()));
+
+            CreateMap<GroupDto, GroupUserDto>().ReverseMap();
         }
     }
 }
