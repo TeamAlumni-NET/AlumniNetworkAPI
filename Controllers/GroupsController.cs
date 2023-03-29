@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -54,7 +55,6 @@ namespace AlumniNetworkAPI.Controllers
             {
                 return base.Ok(rawGroups);
             }
-
         }
 
         // GET: api/Groups/5
@@ -116,9 +116,10 @@ namespace AlumniNetworkAPI.Controllers
             int groupId = group.Id;
 
             await _groupService.AddUserToGroup(groupId, userId);
+            var answer = _mapper.Map<GroupUserDto>(groupDto);
+            answer.IsMember = true;
 
-
-            return CreatedAtAction(nameof(GetGroup), new { id = groupDto.Id }, groupDto);
+            return CreatedAtAction(nameof(GetGroup), new { id = answer.Id }, answer);
 
         }
 
