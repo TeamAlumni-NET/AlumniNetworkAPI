@@ -73,8 +73,10 @@ namespace AlumniNetworkAPI.Controllers
             int topicId = topic.Id;
 
             await _topicService.AddUserToTopic(topicId, userId);
+            var answer = _mapper.Map<TopicUserDto>(topicDto);
+            answer.IsMember = true;
 
-            return CreatedAtAction(nameof(GetTopic), new { id = topicDto.Id }, topicDto);
+            return CreatedAtAction(nameof(GetTopic), new { id = answer.Id }, answer);
 
         }
 
