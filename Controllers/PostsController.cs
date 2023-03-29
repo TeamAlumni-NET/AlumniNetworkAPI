@@ -1,10 +1,12 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Posts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -65,11 +67,29 @@ namespace AlumniNetworkAPI.Controllers
         }
 
         [HttpGet("thread/{id}")]
-        public async Task<ActionResult<ChildPostRootDto>> GetPostThread(int id)
+        public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetPostThread(int id)
         {
             try
             {
-                return Ok(_mapper.Map<ChildPostRootDto>(await _postService.GetAllChildPosts(id)));
+                return Ok(_mapper.Map < IEnumerable<ChildPostDto>>(await _postService.GetAllChildPosts(id)));
+                
+            }
+            catch (PostNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("thread/event/{id}")]
+        public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetEventThread(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<ChildPostDto>>(await _postService.GetAllChildPostsEvent(id)));
+
             }
             catch (PostNotFoundException ex)
             {
@@ -81,27 +101,33 @@ namespace AlumniNetworkAPI.Controllers
         }
 
 
+
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
-            var post = _mapper.Map<Post>(createPostDto);
+            var userData = createPostDto.User;
+            var newPost = _mapper.Map<NewPostDto>(createPostDto);
+            var post = _mapper.Map<Post>(newPost);
             post.TimeStamp = DateTime.Now;
             await _postService.Create(post);
 
-            var postDto = _mapper.Map<PostDto>(post);
-
+            if (post.ParentPostId != null)
+            {
+                var answer = _mapper.Map<ChildPostDto>(post);
+                answer.user = _mapper.Map<UserSimpleDto>(userData);
+                return CreatedAtAction(nameof(GetPost), new { id = answer.Id }, answer);
+            }
+            var postDto = _mapper.Map<TimelinePostDto>(post);
+            postDto.User = userData;
             return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
         }
-
-
-
 
         // PUT: api/Posts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, EditPostDto editPostDto)
+        public async Task<ActionResult<PostDto>> PutPost(int id, EditPostDto editPostDto)
         {
             if (id != editPostDto.Id)
             {
@@ -110,6 +136,10 @@ namespace AlumniNetworkAPI.Controllers
 
             try
             {
+                foreach (PropertyInfo propertyInfo in editPostDto.GetType().GetProperties())
+                {
+                    Console.WriteLine($"{propertyInfo}: {propertyInfo.GetValue(editPostDto)}");
+                }
                 await _postService.Update(_mapper.Map<Post>(editPostDto));
             }
             catch (PostNotFoundException ex)
@@ -120,7 +150,7 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetPost), new { id = editPostDto.Id }, editPostDto);
         }
 
 

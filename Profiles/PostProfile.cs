@@ -1,6 +1,8 @@
 ﻿using AlumniNetworkAPI.Models.DTOs.PostDtos;
+using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
+using Microsoft.Extensions.Hosting;
 
 namespace AlumniNetworkAPI.Profiles
 {
@@ -21,6 +23,7 @@ namespace AlumniNetworkAPI.Profiles
                 options.MapFrom(postDomain => postDomain.Topic.Name));
 
             CreateMap<TimelinePostDto, SimplePostDto>().ReverseMap();
+
             CreateMap<Post, SimplePostDto>()
             .ForMember(dto => dto.User, options =>
             options.MapFrom(postDomain => postDomain.User.Username));
@@ -30,6 +33,23 @@ namespace AlumniNetworkAPI.Profiles
                 .ForMember(dto => dto.picture, options =>
                 options.MapFrom(postDomain => postDomain.User.PictureUrl));
 
+            CreateMap<Post, ChildPostDto>()
+                .ForMember(dto => dto.user, options =>
+                options.MapFrom(postDomain => new UserSimpleDto {
+                    Id= postDomain.UserId,
+                    Username=postDomain.User.Username,
+                    FirstName=postDomain.User.FirstName,
+                    LastName=postDomain.User.LastName,
+                    PictureUrl=postDomain.User.PictureUrl
+                }))
+                .ForMember(dto => dto.targetUser, options =>
+                options.MapFrom(postDomain => postDomain.TargetUser.Username));
+            CreateMap<CreatePostDto, NewPostDto>()
+                .ForMember(dto => dto.UserId, options =>
+                options.MapFrom(postDomain => postDomain.User.Id));
+            CreateMap<NewPostDto, Post>().ReverseMap();
         }
+
+        // options.MapFrom(eventDomain => eventDomain.Posts .Select(post => new SimplePostDto { Id = post.Id, User = post.User.Username, Content = post.Content
     }
 }

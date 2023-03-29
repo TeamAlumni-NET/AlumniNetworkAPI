@@ -1,5 +1,6 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
+using AlumniNetworkAPI.Models.DTOs.EventUserDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -133,6 +134,21 @@ namespace AlumniNetworkAPI.Services.Events
             await _dbContext.SaveChangesAsync();
             return entity;
 
+        }
+
+        public async Task<Event> AddUserToEvent(int eventId, int userId)
+        {
+            var eventT = await _dbContext.Events.Include(x => x.EventUsers).Where(x => x.Id == eventId).FirstOrDefaultAsync();
+            var user = await _dbContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            var userEvent = new EventUser { EventId = eventId, UserId = userId};
+
+            eventT.EventUsers.Add(userEvent);
+
+            _dbContext.Entry(eventT).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            return eventT;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<UserEditDto, User>().ReverseMap();
 
             CreateMap<UserCreateDto, User>().ReverseMap();
+            CreateMap<UserDto, UserSimpleDto>().ReverseMap();
         }
     }
 }

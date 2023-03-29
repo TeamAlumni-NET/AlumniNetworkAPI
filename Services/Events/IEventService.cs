@@ -9,5 +9,7 @@ namespace AlumniNetworkAPI.Services.Events
         Task<IEnumerable<Event>> GetUserSuggestedEventsByUserId(int id);
         Task<IEnumerable<Event>> GetEventsByTopic(int id);
         Task<IEnumerable<Event>> GetEventsByGroup(int id);
+
+        Task<Event> AddUserToEvent(int id, int userId);
     }
 }

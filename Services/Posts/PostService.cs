@@ -3,6 +3,7 @@ using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.PostDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AlumniNetworkAPI.Services.Posts
 {
@@ -17,49 +18,32 @@ namespace AlumniNetworkAPI.Services.Posts
         {
             return await _dbContext.Posts.ToListAsync();
         }
-        public async Task<ChildPostRootDto> GetAllChildPosts(int id)
+        public async Task<IEnumerable<Post>> GetAllChildPosts(int id)
         {
             var postList = await _dbContext.Posts
                 .Where(p => p.ParentPostId == id)
+                .Include(p => p.User)
+                .ToListAsync();
+            return postList;
+        }
+
+        public async Task<IEnumerable<Post>> GetAllChildPostsEvent(int id)
+        {
+            var postList = await _dbContext.Posts
+                .Where(p => p.EventId == id)
+                .Include(p => p.User)
                 .ToListAsync();
             var result = new ChildPostRootDto();
             result.ChildPosts = new List<ChildPostDto>();
-
-            foreach (var post in postList)
-            {
-                var single = new ChildPostDto();
-                var user = await _dbContext.Users
-                .Where(u => u.Id == post.UserId)
-                .FirstOrDefaultAsync();
-
-                single.Id = post.Id;
-                single.Content = post.Content;
-                single.TimeStamp = post.TimeStamp;
-                single.username = user.Username;
-                single.pictureUrl = user.PictureUrl;
-                var targetUser = await _dbContext.Users
-                    .Where(u => u.Id == post.TargetUserId)
-                    .FirstOrDefaultAsync();
-                if (post.TargetUserId.HasValue)
-                {
-                    single.targetUser = targetUser.Username;
-
-                }
-
-
-                result.ChildPosts.Add(single);
-            }
-            return result;
+            return postList;
         }
-        public async Task<Post> GetById(int id)
+
+            public async Task<Post> GetById(int id)
         {
             var post = await _dbContext.Posts
                 .Where(p => p.Id == id)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync();
-
-
-
             if (post == null)
             {
                 throw new PostNotFoundException(id);
@@ -82,7 +66,9 @@ namespace AlumniNetworkAPI.Services.Posts
             {
                 throw new PostNotFoundException(entity.Id);
             }
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Posts.Attach(entity);
+            _dbContext.Entry(entity).Property(p => p.Title).IsModified = true;
+            _dbContext.Entry(entity).Property(p => p.Content).IsModified = true;
             await _dbContext.SaveChangesAsync();
             return entity;
         }
