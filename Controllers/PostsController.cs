@@ -6,6 +6,7 @@ using AlumniNetworkAPI.Services.Posts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace AlumniNetworkAPI.Controllers
@@ -31,10 +32,23 @@ namespace AlumniNetworkAPI.Controllers
         {
             if (target == "timeline")
             {
+                
                 return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetTimeline(userId)));
             }
             else if (target == "group")
             {
+                var answer = _mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetGroup(userId));
+                Console.WriteLine("\n\n\n\n\n Yrittää tulostaa");
+                foreach (var post in answer)
+                {
+                    foreach (PropertyInfo propertyInfo in post.GetType().GetProperties())
+                    {
+                        Console.WriteLine($"{propertyInfo} : {propertyInfo.GetValue(post)}");
+                    }
+
+                }
+                Console.WriteLine("\n\n\n\n\n Yrittää tulostaa");
+
                 return Ok(_mapper.Map<IEnumerable<TimelinePostDto>>(await _postService.GetGroup(userId)));
             }
             else if (target == "topic")
