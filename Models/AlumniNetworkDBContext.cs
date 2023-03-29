@@ -77,7 +77,7 @@ namespace AlumniNetworkAPI.Models
                         LastName = "Smith",
                         Status = "Working with IBM",
                         Bio = "I love computers!",
-                        FunFact = "The sky is blue",
+                        FunFact = "The real name for a hashtag is an octothorpe.",
                         PictureUrl = "https://www.misir.fi/wp-content/uploads/2015/08/harald-200x200.jpg"
                     }
                     );
@@ -292,7 +292,41 @@ namespace AlumniNetworkAPI.Models
                          UserId = 2,
                          GroupId = 2,
                          ParentPostId = 8,
+                     }, new Post
+                     {
+                         Id = 25,
+                         TimeStamp = DateTime.Now,
+                         Content = "I do have, but Im out of gas",
+                         UserId = 1,
+                         EventId = 2,
+                         TargetUserId= 3,
+                     },
+                     new Post
+                     {
+                         Id = 26,
+                         TimeStamp = DateTime.Now,
+                         Content = "Remember, no arcade games with company credit card!",
+                         UserId = 1,
+                         EventId = 1
+                     },
+                     new Post
+                     {
+                         Id = 27,
+                         TimeStamp = DateTime.Now,
+                         Content = "Not even pony race?",
+                         UserId = 2,
+                         EventId = 2,
+                         TargetUserId= 1,
+                     },
+                     new Post
+                     {
+                         Id = 28,
+                         TimeStamp = DateTime.Now,
+                         Content = "Havent lost in trivial Pursuit since 2005, who want to try to beat me?",
+                         UserId = 3,
+                         EventId = 3
                      }
+
                 );
             modelBuilder.Entity<Rsvp>()
                 .HasData(
