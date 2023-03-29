@@ -8,8 +8,7 @@ namespace AlumniNetworkAPI.Models.DTOs.PostDtos
         public string Content { get; set; }
         public DateTime TimeStamp { get; set; }
         public UserSimpleDto user { get; set; }
-
         public string targetUser { get; set; }
-        
+
     }
 }
