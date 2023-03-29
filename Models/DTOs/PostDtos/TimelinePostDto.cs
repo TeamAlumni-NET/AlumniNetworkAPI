@@ -11,6 +11,6 @@ namespace AlumniNetworkAPI.Models.DTOs.PostDtos
         public UserDto User { get; set; }
         public string? Topic { get; set; }
         public string? Group { get; set; }
-        public ICollection<SimplePostDto>? ChildPosts { get; set; }
+        public ICollection<ChildPostDto>? ChildPosts { get; set; }
     }
 }

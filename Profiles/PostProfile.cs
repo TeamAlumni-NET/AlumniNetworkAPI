@@ -2,7 +2,6 @@
 using AlumniNetworkAPI.Models.DTOs.UserDtos;
 using AlumniNetworkAPI.Models.Models;
 using AutoMapper;
-using Microsoft.Extensions.Hosting;
 
 namespace AlumniNetworkAPI.Profiles
 {
@@ -27,20 +26,17 @@ namespace AlumniNetworkAPI.Profiles
             CreateMap<Post, SimplePostDto>()
             .ForMember(dto => dto.User, options =>
             options.MapFrom(postDomain => postDomain.User.Username));
-            CreateMap<Post, PostByIdDto>()
-                .ForMember(dto => dto.User, options =>
-                options.MapFrom(postDomain => postDomain.User.Username))
-                .ForMember(dto => dto.picture, options =>
-                options.MapFrom(postDomain => postDomain.User.PictureUrl));
+            CreateMap<Post, PostByIdDto>();
 
             CreateMap<Post, ChildPostDto>()
                 .ForMember(dto => dto.user, options =>
-                options.MapFrom(postDomain => new UserSimpleDto {
-                    Id= postDomain.UserId,
-                    Username=postDomain.User.Username,
-                    FirstName=postDomain.User.FirstName,
-                    LastName=postDomain.User.LastName,
-                    PictureUrl=postDomain.User.PictureUrl
+                options.MapFrom(postDomain => new UserSimpleDto
+                {
+                    Id = postDomain.UserId,
+                    Username = postDomain.User.Username,
+                    FirstName = postDomain.User.FirstName,
+                    LastName = postDomain.User.LastName,
+                    PictureUrl = postDomain.User.PictureUrl
                 }))
                 .ForMember(dto => dto.targetUser, options =>
                 options.MapFrom(postDomain => postDomain.TargetUser.Username));
