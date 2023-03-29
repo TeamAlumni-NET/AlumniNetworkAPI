@@ -56,7 +56,7 @@ namespace AlumniNetworkAPI.Models
                         Status = "Working at Experis",
                         Bio = "I am a proactive worker!",
                         FunFact = "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.",
-                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839"
+                        PictureUrl = "https://memesbams.com/wp-content/uploads/2017/10/homer-simpson-mmm-meme.jpg"
                     },
                     new User
                     {
@@ -67,7 +67,7 @@ namespace AlumniNetworkAPI.Models
                         Status = "Working at Noroff",
                         Bio = "I am a happy worker!",
                         FunFact = "Liechtenstein and Uzbekistan are the only doubly landlocked countries.",
-                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840"
+                        PictureUrl = "https://is.mediadelivery.fi/img/978/3f8de8ba787e4ae89c0322f57337435b.jpg.webp"
                     },
                     new User
                     {
@@ -77,8 +77,8 @@ namespace AlumniNetworkAPI.Models
                         LastName = "Smith",
                         Status = "Working with IBM",
                         Bio = "I love computers!",
-                        FunFact = "The sky is blue",
-                        PictureUrl = "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840"
+                        FunFact = "The real name for a hashtag is an octothorpe.",
+                        PictureUrl = "https://www.misir.fi/wp-content/uploads/2015/08/harald-200x200.jpg"
                     }
                     );
             modelBuilder.Entity<Group>()
@@ -292,7 +292,41 @@ namespace AlumniNetworkAPI.Models
                          UserId = 2,
                          GroupId = 2,
                          ParentPostId = 8,
+                     }, new Post
+                     {
+                         Id = 25,
+                         TimeStamp = DateTime.Now,
+                         Content = "I do have, but Im out of gas",
+                         UserId = 1,
+                         EventId = 2,
+                         TargetUserId= 3,
+                     },
+                     new Post
+                     {
+                         Id = 26,
+                         TimeStamp = DateTime.Now,
+                         Content = "Remember, no arcade games with company credit card!",
+                         UserId = 1,
+                         EventId = 1
+                     },
+                     new Post
+                     {
+                         Id = 27,
+                         TimeStamp = DateTime.Now,
+                         Content = "Not even pony race?",
+                         UserId = 2,
+                         EventId = 1,
+                         TargetUserId= 1,
+                     },
+                     new Post
+                     {
+                         Id = 28,
+                         TimeStamp = DateTime.Now,
+                         Content = "Havent lost in trivial Pursuit since 2005, who want to try to beat me?",
+                         UserId = 3,
+                         EventId = 3
                      }
+
                 );
             modelBuilder.Entity<Rsvp>()
                 .HasData(

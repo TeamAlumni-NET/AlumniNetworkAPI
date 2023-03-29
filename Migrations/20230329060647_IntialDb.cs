@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AlumniNetworkAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class IntialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -304,9 +304,9 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Bio", "FirstName", "FunFact", "LastName", "PictureUrl", "Status", "Username" },
                 values: new object[,]
                 {
-                    { 1, "I am a proactive worker!", "Jaska", "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/e/ee/FamilyGuy_Single_ChrisText_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171839", "Working at Experis", "JaskaMan" },
-                    { 2, "I am a happy worker!", "Emma", "Liechtenstein and Uzbekistan are the only doubly landlocked countries.", "Jokunen", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working at Noroff", "EmmAA" },
-                    { 3, "I love computers!", "Seamus", "The sky is blue", "Smith", "https://static.wikia.nocookie.net/familyguy/images/1/1b/FamilyGuy_Single_MegMakeup_R7.jpg/revision/latest/scale-to-width-down/350?cb=20200526171840", "Working with IBM", "seamass" }
+                    { 1, "I am a proactive worker!", "Jaska", "Avocados are a fruit, not a vegetable. They're technically considered a single-seeded berry, believe it or not.", "Jokunen", "https://memesbams.com/wp-content/uploads/2017/10/homer-simpson-mmm-meme.jpg", "Working at Experis", "JaskaMan" },
+                    { 2, "I am a happy worker!", "Emma", "Liechtenstein and Uzbekistan are the only doubly landlocked countries.", "Jokunen", "https://is.mediadelivery.fi/img/978/3f8de8ba787e4ae89c0322f57337435b.jpg.webp", "Working at Noroff", "EmmAA" },
+                    { 3, "I love computers!", "Seamus", "The real name for a hashtag is an octothorpe.", "Smith", "https://www.misir.fi/wp-content/uploads/2015/08/harald-200x200.jpg", "Working with IBM", "seamass" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,9 +314,9 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "AllowGuests", "Description", "EndTime", "EventCreatorId", "LastUpdated", "Name", "StartTime" },
                 values: new object[,]
                 {
-                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4244), "Afterwork", new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4294), "Noroff summer bootcamp", new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, true, "Boardgame tuesday!", null, 3, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4297), "Boargames!", new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, true, "Friday night fun. At linnanmäki", new DateTime(2023, 3, 17, 21, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8773), "Afterwork", new DateTime(2023, 3, 17, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, true, "Noroffs teachers bootcamp", new DateTime(2023, 4, 2, 21, 0, 0, 0, DateTimeKind.Unspecified), 2, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8823), "Noroff summer bootcamp", new DateTime(2023, 3, 31, 17, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, true, "Boardgame tuesday!", null, 3, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8825), "Boargames!", new DateTime(2023, 3, 21, 17, 30, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -335,13 +335,13 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "My very first content.", null, null, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4315), "Afterwork coming soon!", 1, 1 },
-                    { 3, "Get reafy to pack your bags!", null, 2, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4327), "Bootcamp coming soon", null, 2 },
-                    { 5, "What boardgames people like to play?", null, 1, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4332), "Boardgames", null, 1 },
-                    { 8, "What do your prefer?", null, 2, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4344), "Best language to teach?", null, 3 },
-                    { 11, "What games people like to play?", null, 1, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4334), "Lan party", null, 1 },
-                    { 20, "Only videogames!.", null, null, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4318), "Gamers!", 1, 1 },
-                    { 22, "You're such a noob!.", null, null, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4322), null, 1, 2 }
+                    { 1, "My very first content.", null, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8875), "Afterwork coming soon!", 1, 1 },
+                    { 3, "Get reafy to pack your bags!", null, 2, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8889), "Bootcamp coming soon", null, 2 },
+                    { 5, "What boardgames people like to play?", null, 1, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8894), "Boardgames", null, 1 },
+                    { 8, "What do your prefer?", null, 2, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8909), "Best language to teach?", null, 3 },
+                    { 11, "What games people like to play?", null, 1, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8896), "Lan party", null, 1 },
+                    { 20, "Only videogames!.", null, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8879), "Gamers!", 1, 1 },
+                    { 22, "You're such a noob!.", null, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8883), null, 1, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -386,14 +386,18 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
                 values: new object[,]
                 {
-                    { 2, "Lets GOO!", null, null, 1, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4324), null, 1, 3 },
-                    { 4, "Does someone have trangia?", 2, null, null, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4329), null, null, 3 },
-                    { 6, "Ark Nova is the best!", null, 1, 5, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4340), null, null, 3 },
-                    { 7, "Is it one of the games in SM-competition of boardgames?", null, 1, 5, 3, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4342), null, null, 1 },
-                    { 9, "Me first Javascript!", null, 2, 8, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4347), null, null, 3 },
-                    { 10, "C# is the best", null, 2, 8, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4349), null, null, 2 },
-                    { 12, "League of legends", null, 1, 11, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4335), null, null, 3 },
-                    { 21, "Ayyyyyy!.", null, null, 20, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4320), null, 1, 1 }
+                    { 2, "Lets GOO!", null, null, 1, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8887), null, 1, 3 },
+                    { 4, "Does someone have trangia?", 2, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8892), null, null, 3 },
+                    { 6, "Ark Nova is the best!", null, 1, 5, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8904), null, null, 3 },
+                    { 7, "Is it one of the games in SM-competition of boardgames?", null, 1, 5, 3, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8906), null, null, 1 },
+                    { 9, "Me first Javascript!", null, 2, 8, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8911), null, null, 3 },
+                    { 10, "C# is the best", null, 2, 8, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8913), null, null, 2 },
+                    { 12, "League of legends", null, 1, 11, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8899), null, null, 3 },
+                    { 21, "Ayyyyyy!.", null, null, 20, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8881), null, 1, 1 },
+                    { 25, "I do have, but Im out of gas", 2, null, null, 3, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8916), null, null, 1 },
+                    { 26, "Remember, no arcade games with company credit card!", 1, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8918), null, null, 1 },
+                    { 27, "Not even pony race?", 1, null, null, 1, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8921), null, null, 2 },
+                    { 28, "Havent lost in trivial Pursuit since 2005, who want to try to beat me?", 3, null, null, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8923), null, null, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -401,14 +405,14 @@ namespace AlumniNetworkAPI.Migrations
                 columns: new[] { "Id", "EventId", "GuestCount", "LastUpdated", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4403), 1 },
-                    { 2, 2, 1, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4407), 2 }
+                    { 1, 1, 1, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8944), 1 },
+                    { 2, 2, 1, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8947), 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "Content", "EventId", "GroupId", "ParentPostId", "TargetUserId", "TimeStamp", "Title", "TopicId", "UserId" },
-                values: new object[] { 13, "Omg who plays leage 2023?!", null, 1, 12, null, new DateTime(2023, 3, 25, 20, 56, 16, 716, DateTimeKind.Local).AddTicks(4337), null, null, 3 });
+                values: new object[] { 13, "Omg who plays leage 2023?!", null, 1, 12, null, new DateTime(2023, 3, 29, 9, 6, 47, 4, DateTimeKind.Local).AddTicks(8901), null, null, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventGroup_EventsId",

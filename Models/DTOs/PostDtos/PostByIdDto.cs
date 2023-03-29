@@ -1,4 +1,6 @@
-﻿namespace AlumniNetworkAPI.Models.DTOs.PostDtos
+﻿using AlumniNetworkAPI.Models.DTOs.UserDtos;
+
+namespace AlumniNetworkAPI.Models.DTOs.PostDtos
 {
     public class PostByIdDto
     {
@@ -12,8 +14,7 @@
         public int? GroupId { get; set; }
         public int? ParentPostId { get; set; }
         public int? EventId { get; set; }
-        public string User { get; set; }
+        public UserDto User { get; set; }
 
-        public string? picture { get; set; } 
     }
 }
