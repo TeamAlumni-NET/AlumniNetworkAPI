@@ -103,6 +103,7 @@ namespace AlumniNetworkAPI.Controllers
             }
             var postDto = _mapper.Map<TimelinePostDto>(post);
             postDto.User = userData;
+            return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
         }
 
         // PUT: api/Posts/5
