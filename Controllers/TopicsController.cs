@@ -6,11 +6,15 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mime;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class TopicsController : ControllerBase
     {
@@ -25,7 +29,11 @@ namespace AlumniNetworkAPI.Controllers
             _topicService = topicService;
         }
 
-        // GET: api/Topics
+        /// <summary>
+        /// Gets all topics
+        /// </summary>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TopicDto>>> GetTopics(int userId)
         {
@@ -46,7 +54,11 @@ namespace AlumniNetworkAPI.Controllers
             return base.Ok(filteredTopicsForUser);
         }
 
-        // GET: api/Topics/5
+        /// <summary>
+        /// Gets spesific topic
+        /// </summary>
+        /// <param name="id">TopicId</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Topic>> GetTopic(int id)
         {
@@ -60,8 +72,12 @@ namespace AlumniNetworkAPI.Controllers
             return topic;
         }
 
-        // POST: api/Topics
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates new topic and adds creator as a member
+        /// </summary>
+        /// <param name="topicCreateDto"></param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<TopicDto>> CreateTopic(TopicCreateDto topicCreateDto, int userId)
         {
@@ -81,7 +97,12 @@ namespace AlumniNetworkAPI.Controllers
         }
 
 
-        // POST: api/Topics/:topicId/join
+        /// <summary>
+        /// Adds user to topic
+        /// </summary>
+        /// <param name="id">TopicId</param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPost("{id}/join")]
         public async Task<ActionResult> JoinTopic(int id, int userId)
         {
@@ -90,6 +111,13 @@ namespace AlumniNetworkAPI.Controllers
             return CreatedAtAction("JoinTopic", id);
 
         }
+
+        /// <summary>
+        /// Removes user from a spesific topic
+        /// </summary>
+        /// <param name="id">TopicId</param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPatch("{id}/leave")]
         public async Task<ActionResult> LeaveTopic(int id, int userId)
         {
@@ -98,40 +126,12 @@ namespace AlumniNetworkAPI.Controllers
         }
 
 
-        // PUT: api/Topics/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
-        {
-            if (id != topic.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(topic).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TopicExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-
-
-        // DELETE: api/Topics/5
+        /// <summary>
+        /// Deletes spesific topic
+        /// </summary>
+        /// <param name="id">TopicId</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTopic(int id)
         {

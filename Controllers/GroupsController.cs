@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Net.Mime;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class GroupsController : ControllerBase
     {
@@ -26,7 +30,11 @@ namespace AlumniNetworkAPI.Controllers
             _groupService = groupService;
         }
 
-        // GET: api/Groups
+        /// <summary>
+        /// Gets all public groups and private groups user is a member
+        /// </summary>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups(int userId)
         {
@@ -57,7 +65,11 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
-        // GET: api/Groups/5
+        /// <summary>
+        /// Gets a spesific group by id
+        /// </summary>
+        /// <param name="id">GroupId</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(int id)
         {
@@ -71,39 +83,13 @@ namespace AlumniNetworkAPI.Controllers
             return @group;
         }
 
-        // PUT: api/Groups/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroup(int id, Group @group)
-        {
-            if (id != @group.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(@group).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Groups
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new group and adds creator to group
+        /// </summary>
+        /// <param name="groupCreateDto"></param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<GroupDto>> CreateGroup(GroupCreateDto groupCreateDto, int userId)
         {
@@ -124,7 +110,12 @@ namespace AlumniNetworkAPI.Controllers
         }
 
 
-        // POST: api/Groups/:groupId/join
+        /// <summary>
+        /// Adds user to spesific group
+        /// </summary>
+        /// <param name="id">GroupId</param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPost("{id}/join")]
         public async Task<ActionResult> JoinGroup(int id, int userId)
         {
@@ -142,6 +133,13 @@ namespace AlumniNetworkAPI.Controllers
 
 
         }
+
+        /// <summary>
+        /// Removes user from spesific group
+        /// </summary>
+        /// <param name="id">GroupId</param>
+        /// <param name="userId">UserId</param>
+        /// <returns></returns>
         [HttpPatch("{id}/leave")]
         public async Task<ActionResult> LeaveGroup(int id, int userId)
         {
@@ -152,7 +150,11 @@ namespace AlumniNetworkAPI.Controllers
 
 
 
-        // DELETE: api/Groups/5
+        /// <summary>
+        /// Deletes spesific group
+        /// </summary>
+        /// <param name="id">GroupId</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroup(int id)
         {

@@ -7,12 +7,16 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Reflection;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class PostsController : ControllerBase
     {
@@ -26,7 +30,12 @@ namespace AlumniNetworkAPI.Controllers
 
         }
 
-        // GET: api/Posts
+        /// <summary>
+        /// Gets all postst based on target
+        /// </summary>
+        /// <param name="userId">UserId</param>
+        /// <param name="target">timeline, group, topic, or dashboard</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId, string target)
         {
@@ -52,7 +61,11 @@ namespace AlumniNetworkAPI.Controllers
 
         }
 
-        // GET: api/Posts/5
+        /// <summary>
+        /// Gets spesific post
+        /// </summary>
+        /// <param name="id">PostId</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PostByIdDto>> GetPost(int id)
         {
@@ -69,6 +82,11 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all childposts based on post
+        /// </summary>
+        /// <param name="id">PostId</param>
+        /// <returns></returns>
         [HttpGet("thread/{id}")]
         public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetPostThread(int id)
         {
@@ -86,6 +104,11 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all childposts based on events post
+        /// </summary>
+        /// <param name="id">PostId</param>
+        /// <returns></returns>
         [HttpGet("thread/event/{id}")]
         public async Task<ActionResult<Task<IEnumerable<ChildPostDto>>>> GetEventThread(int id)
         {
@@ -105,8 +128,11 @@ namespace AlumniNetworkAPI.Controllers
 
 
 
-        // POST: api/Posts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new post
+        /// </summary>
+        /// <param name="createPostDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<PostDto>> PostPost(CreatePostDto createPostDto)
         {
@@ -127,8 +153,12 @@ namespace AlumniNetworkAPI.Controllers
             return CreatedAtAction(nameof(GetPost), new { id = postDto.Id }, postDto);
         }
 
-        // PUT: api/Posts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edits post
+        /// </summary>
+        /// <param name="id">PostId</param>
+        /// <param name="editPostDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<PostDto>> PutPost(int id, EditPostDto editPostDto)
         {
@@ -154,7 +184,11 @@ namespace AlumniNetworkAPI.Controllers
 
 
 
-        // DELETE: api/Posts/5
+        /// <summary>
+        /// Deletes spesific post
+        /// </summary>
+        /// <param name="id">PostId</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {

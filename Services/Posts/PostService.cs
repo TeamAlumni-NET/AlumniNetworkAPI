@@ -96,6 +96,7 @@ namespace AlumniNetworkAPI.Services.Posts
 
             return posts;
         }
+
         public async Task<IEnumerable<Post>> GetDashboard(int userId)
         {
             var posts = await _dbContext.Posts

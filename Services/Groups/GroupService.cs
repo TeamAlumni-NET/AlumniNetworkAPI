@@ -69,5 +69,10 @@ namespace AlumniNetworkAPI.Services.Groups
         {
             throw new NotImplementedException();
         }
+
+        public Task<Group> AddEventToGroup(int groupId, int eventId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
