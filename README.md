@@ -35,30 +35,30 @@ with a RESTful API to allow users to manipulate the data.
 |   
 +---bin
 |
-+---Controllers
-|       EventsController.cs			# Controller that communicates with EventService
-|       EventUsersController.cs			# Controller that communicates with EventUserService
-|       GroupsController.cs			# Controller that communicates with GroupService
-|       PostsController.cs			# Controller that communicates with PostService
-|       RsvpsController.cs			# Controller that communicates with RsvpService
-|       TopicsController.cs			# Controller that communicates with TopicService
-|       UsersController.cs			# Controller that communicates with UserService
++---Controllers                     # Controllers that communicates with Services
+|       EventsController.cs			
+|       EventUsersController.cs		
+|       GroupsController.cs			
+|       PostsController.cs			
+|       RsvpsController.cs			
+|       TopicsController.cs			
+|       UsersController.cs			
 |       
-+---Exceptions					# Custom made exeptions
++---Exceptions					    # Custom made exeptions
 |       EventNotFoundException.cs		
 |       PostNotFoundException.cs
 |       UserAlreadyExistsException.cs
 |       UserNotFoundException.cs
 |       
-+---Migrations					# Database migrations
++---Migrations					    # Database migrations
 |       20230329064826_InitialDb.cs
 |       20230329064826_InitialDb.Designer.cs
 |       AlumniNetworkDBContextModelSnapshot.cs
 |       
-+---Models					# Contains database tables and Dtos
++---Models					        # Contains database tables and Dtos
 |   |   AlumniNetworkDBContext.cs
 |   |   
-|   +---DTOs					# DTO´s of models
+|   +---DTOs					    # DTO´s of models
 |   |   +---EventDtos
 |   |   |       EventCalendarDto.cs
 |   |   |       EventCreateDto.cs
@@ -99,7 +99,7 @@ with a RESTful API to allow users to manipulate the data.
 |   |           UserEditDto.cs
 |   |           UserSimpleDto.cs
 |   |           
-|   \---Models					# Database tables
+|   \---Models					     # Database tables
 |           Event.cs
 |           EventUser.cs
 |           Group.cs
@@ -109,7 +109,7 @@ with a RESTful API to allow users to manipulate the data.
 |           User.cs
 |           
 +---obj
-+---Profiles					# Profiles for Automapper
++---Profiles					     # Profiles for Automapper
 |       EventProfile.cs
 |       EventUser.cs
 |       GroupProfile.cs
@@ -118,7 +118,7 @@ with a RESTful API to allow users to manipulate the data.
 |       TopicProfile.cs
 |       UserProfile.cs
 |       
-\---Services					# Queries for database tables				
+\---Services					     # Queries for database tables				
     |   ICrudService.cs				
     |   
     +---Events
