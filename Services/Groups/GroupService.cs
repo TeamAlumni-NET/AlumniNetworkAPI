@@ -29,24 +29,7 @@ namespace AlumniNetworkAPI.Services.Groups
 
             return group;
         }
-        public async Task<Group> AddEventToGroup(int? groupId, int eventId)
-        {
-            if (groupId == null) throw new Exception();
-
-            var group = await _context.Groups.Include(x => x.Events).Where(x => x.Id == groupId).FirstOrDefaultAsync();
-            var currEvent = await _context.Events.Where(x => x.Id == eventId).FirstOrDefaultAsync();
-
-            if (group.Events.Contains(currEvent))
-            {
-                throw new Exception();
-            }
-
-            group.Events.Add(currEvent);
-            _context.Entry(group).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return group;
-        }
+      
 
         public async Task<Group> RemoveUserToGroup(int groupId, int userId)
         {
