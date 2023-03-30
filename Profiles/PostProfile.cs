@@ -29,9 +29,9 @@ namespace AlumniNetworkAPI.Profiles
 
             CreateMap<Post, PostByIdDto>()
                 .ForMember(dto => dto.User, options =>
-                options.MapFrom(postDomain => postDomain.User.Username))
-                .ForMember(dto => dto.picture, options =>
-                options.MapFrom(postDomain => postDomain.User.PictureUrl));
+                options.MapFrom(postDomain => postDomain.User.Username));
+                //.ForMember(dto => dto.picture, options =>
+                //options.MapFrom(postDomain => postDomain.User.PictureUrl));
 
             CreateMap<Post, ChildPostDto>()
                 .ForMember(dto => dto.user, options =>

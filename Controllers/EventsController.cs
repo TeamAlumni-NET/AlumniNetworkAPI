@@ -7,11 +7,15 @@ using AlumniNetworkAPI.Services.Groups;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class EventsController : ControllerBase
     {
@@ -30,6 +34,12 @@ namespace AlumniNetworkAPI.Controllers
         }
 
         // GET: api/Events
+        /// <summary>
+        /// Gets all events based of target
+        /// </summary>
+        /// <param name="userId">A unique identifier for user</param>
+        /// <param name="target">timeline or calendar</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents(int userId, string target)
         {
@@ -54,6 +64,12 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Gets events suggested to user by groups and topics
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <returns></returns>
         [HttpGet("suggested/{id}")]
         public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetSuggestedEvents(int id)
         {
@@ -69,6 +85,12 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Gets events by spesific topic
+        /// </summary>
+        /// <param name="id">TopicId</param>
+        /// <returns></returns>
         [HttpGet("topic/{id}")]
         public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetTopicEvents(int id)
         {
@@ -84,6 +106,12 @@ namespace AlumniNetworkAPI.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Gets events by spesific group
+        /// </summary>
+        /// <param name="id">GroupId</param>
+        /// <returns></returns>
         [HttpGet("group/{id}")]
         public async Task<ActionResult<IEnumerable<EventCalendarDto>>> GetGroupEvents(int id)
         {
@@ -100,7 +128,11 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
-        // GET: api/Events/5
+        /// <summary>
+        /// Gets a spesific event
+        /// </summary>
+        /// <param name="id">EventId</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> GetEvent(int id)
         {
@@ -114,8 +146,11 @@ namespace AlumniNetworkAPI.Controllers
             return eventT;
         }
 
-        // POST: api/Events
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new event
+        /// </summary>
+        /// <param name="eventCreateDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<EventDto>> CreateEvent(EventCreateDto eventCreateDto)
         {
@@ -140,7 +175,11 @@ namespace AlumniNetworkAPI.Controllers
         }
 
 
-        // DELETE: api/Events/5
+        /// <summary>
+        /// Deletes spesific event
+        /// </summary>
+        /// <param name="id">EventId</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
@@ -159,31 +198,5 @@ namespace AlumniNetworkAPI.Controllers
             return NoContent();
         }
 
-
-        // PUT: api/Events/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Event entity)
-        {
-            if (id != entity.Id)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                await _eventService.Update(entity);
-            }
-            catch (EventNotFoundException ex)
-            {
-                return NotFound(new ProblemDetails
-                {
-                    Detail = ex.Message
-                });
-
-            }
-
-            return NoContent();
-        }
     }
 }
