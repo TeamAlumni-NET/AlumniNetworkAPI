@@ -3,11 +3,10 @@ using AlumniNetworkAPI.Models;
 using AlumniNetworkAPI.Models.DTOs.EventDtos;
 using AlumniNetworkAPI.Models.Models;
 using AlumniNetworkAPI.Services.Events;
+using AlumniNetworkAPI.Services.Groups;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace AlumniNetworkAPI.Controllers
 {
@@ -17,14 +16,17 @@ namespace AlumniNetworkAPI.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventService _eventService;
+        private readonly IGroupService _groupService;
+
         private readonly AlumniNetworkDBContext _context;
         private readonly IMapper _mapper;
 
-        public EventsController(IEventService eventService, IMapper mapper, AlumniNetworkDBContext context)
+        public EventsController(IEventService eventService, IGroupService groupService, IMapper mapper, AlumniNetworkDBContext context)
         {
             _eventService = eventService;
             _mapper = mapper;
             _context = context;
+            _groupService = groupService;
         }
 
         // GET: api/Events
@@ -122,12 +124,17 @@ namespace AlumniNetworkAPI.Controllers
 
             await _eventService.Create(eventT);
 
-            var eventDto = _mapper.Map<EventDto>(eventT);
+            var eventDto = _mapper.Map<EventNamesDto>(eventT);
 
             int eventId = eventT.Id;
 
             await _eventService.AddUserToEvent(eventId, eventT.EventCreatorId);
 
+            //if (eventCreateDto.Groups.Count > 0)
+            //{
+            //    var groupId = eventCreateDto.Groups[0];
+            //    await _groupService.AddEventToGroup(groupId, eventId);
+            //}
 
             return CreatedAtAction(nameof(GetEvent), new { id = eventDto }, eventDto);
         }

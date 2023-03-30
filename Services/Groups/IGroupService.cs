@@ -6,5 +6,6 @@ namespace AlumniNetworkAPI.Services.Groups
     {
         Task<Group> AddUserToGroup(int id, int userId);
         Task<Group> RemoveUserToGroup(int groupId, int userId);
+        Task<Group> AddEventToGroup(int groupId, int eventId);
     }
 }
