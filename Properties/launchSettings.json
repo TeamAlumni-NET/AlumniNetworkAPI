@@ -5,7 +5,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://keycloak.vault.azure.net/",
+        "AZURE_USERNAME": "jesperi.kuula@fi.experis.com"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7252;http://localhost:5147"
@@ -15,7 +17,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://keycloak.vault.azure.net/",
+        "AZURE_USERNAME": "jesperi.kuula@fi.experis.com"
       }
     },
     "Docker": {
@@ -23,7 +27,11 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "environmentVariables": {
+        "VaultUri": "https://keycloak.vault.azure.net/",
+        "AZURE_USERNAME": "jesperi.kuula@fi.experis.com"
+      }
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",

@@ -10,8 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 string myCorsPolicy = "_myAllowSpecificOrigins";
 
@@ -72,13 +76,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidIssuer = builder.Configuration["IssuerURI"],
+        ValidIssuer = builder.Configuration["VaultUri:IssuerURI"],
         ValidAudience = "account",
 
         IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
         {
             var client = new HttpClient();
-            string keyuri = builder.Configuration["KeyURI"];
+            string keyuri = builder.Configuration["VaultUri:KeyURI"];
             //Retrieves the keys from keycloak instance to verify token
             var response = client.GetAsync(keyuri).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
