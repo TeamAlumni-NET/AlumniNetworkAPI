@@ -8,6 +8,8 @@ using AlumniNetworkAPI.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +30,29 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AlumniNetworkDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Db")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "AlumniNetworkAPI",
+        Description = "API to get and manipulate Alumni Network Portal data.",
+        Contact = new OpenApiContact
+        {
+            Name = "Marco Angeli, Jesperi Kuula, Kirsi Tainio & Heidi Joensuu",
+            Url = new Uri("https://github.com/TeamAlumni-NET/AlumniNetworkAPI.git"),
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT 2022",
+            Url = new Uri("https://opensource.org/license/mit/")
+        }
+    });
+    options.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddTransient<IEventService, EventService>();
 builder.Services.AddTransient<IEventUserService, EventUserService>();

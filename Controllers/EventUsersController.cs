@@ -3,11 +3,15 @@ using AlumniNetworkAPI.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mime;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class EventUsersController : ControllerBase
     {
@@ -18,14 +22,21 @@ namespace AlumniNetworkAPI.Controllers
             _context = context;
         }
 
-        // GET: api/EventUsers
+        /// <summary>
+        /// Gets all users by event
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventUser>>> GetEventUsers()
         {
             return await _context.EventUsers.ToListAsync();
         }
 
-        // GET: api/EventUsers/5
+        /// <summary>
+        /// Gets a spesific user of event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<EventUser>> GetEventUser(int id)
         {
@@ -39,8 +50,12 @@ namespace AlumniNetworkAPI.Controllers
             return eventUser;
         }
 
-        // PUT: api/EventUsers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit event user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="eventUser"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEventUser(int id, EventUser eventUser)
         {
@@ -70,8 +85,11 @@ namespace AlumniNetworkAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/EventUsers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Adds user to event
+        /// </summary>
+        /// <param name="eventUser"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<EventUser>> PostEventUser(EventUser eventUser)
         {
@@ -95,7 +113,11 @@ namespace AlumniNetworkAPI.Controllers
             return CreatedAtAction("GetEventUser", new { id = eventUser.UserId }, eventUser);
         }
 
-        // DELETE: api/EventUsers/5
+        /// <summary>
+        /// Deletes user from event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEventUser(int id)
         {

@@ -6,11 +6,15 @@ using AlumniNetworkAPI.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace AlumniNetworkAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -25,7 +29,10 @@ namespace AlumniNetworkAPI.Controllers
             _userService = userService;
         }
 
-        // GET: api/Users
+        /// <summary>
+        /// Gets all users
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
@@ -49,6 +56,12 @@ namespace AlumniNetworkAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Gets a spesific user bu username
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns></returns>
         [HttpGet("user/{username}")]
         public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
         {
@@ -62,8 +75,12 @@ namespace AlumniNetworkAPI.Controllers
             }
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edits a spesific user
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <param name="userEditDto"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchUser(int id, UserEditDto userEditDto)
         {
@@ -90,8 +107,13 @@ namespace AlumniNetworkAPI.Controllers
 
             return NoContent();
         }
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
+
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="user">UserId</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<UserCreateDto>> PostUser(UserCreateDto user)
         {
