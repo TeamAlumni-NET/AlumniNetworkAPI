@@ -18,7 +18,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy(name: myCorsPolicy,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins("https://alumni-network-client-tau.vercel.app").AllowAnyHeader().AllowAnyMethod();
         });
 });
 
