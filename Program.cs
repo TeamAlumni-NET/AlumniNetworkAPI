@@ -18,7 +18,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy(name: myCorsPolicy,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins("https://alumni-network-client-tau.vercel.app").AllowAnyHeader().AllowAnyMethod();
         });
 });
 
@@ -48,13 +48,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidIssuer = builder.Configuration["TokenSecrets:IssuerURI"],
+        ValidIssuer = builder.Configuration["IssuerURI"],
         ValidAudience = "account",
 
         IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
         {
             var client = new HttpClient();
-            string keyuri = builder.Configuration["TokenSecrets:KeyURI"];
+            string keyuri = builder.Configuration["KeyURI"];
             //Retrieves the keys from keycloak instance to verify token
             var response = client.GetAsync(keyuri).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
