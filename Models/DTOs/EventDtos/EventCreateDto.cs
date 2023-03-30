@@ -1,4 +1,6 @@
-﻿namespace AlumniNetworkAPI.Models.DTOs.EventDtos
+﻿using AlumniNetworkAPI.Models.Models;
+
+namespace AlumniNetworkAPI.Models.DTOs.EventDtos
 {
     public class EventCreateDto
     {
@@ -9,10 +11,12 @@
         public DateTime? EndTime { get; set; }
         public int EventCreatorId { get; set; }
 
-        public List<int>? Topics { get; set; }
+        public List<Topic>? Topics { get; set; }
+
         //public List<int>? EventUsers { get; set; }
         //public List<int>? Posts { get; set; }
         //public List<int>? Rsvps { get; set; }
-        public List<int>? Groups { get; set; }
+        public List<Group>? Groups { get; set; }
+
     }
 }

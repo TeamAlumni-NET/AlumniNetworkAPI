@@ -18,7 +18,30 @@ namespace AlumniNetworkAPI.Services.Groups
             var group = await _context.Groups.Include(x => x.Users).Where(x => x.Id == groupId).FirstOrDefaultAsync();
             var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
+            if (group.Users.Contains(user))
+            {
+                throw new Exception();
+            }
+
             group.Users.Add(user);
+            _context.Entry(group).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return group;
+        }
+        public async Task<Group> AddEventToGroup(int? groupId, int eventId)
+        {
+            if (groupId == null) throw new Exception();
+
+            var group = await _context.Groups.Include(x => x.Events).Where(x => x.Id == groupId).FirstOrDefaultAsync();
+            var currEvent = await _context.Events.Where(x => x.Id == eventId).FirstOrDefaultAsync();
+
+            if (group.Events.Contains(currEvent))
+            {
+                throw new Exception();
+            }
+
+            group.Events.Add(currEvent);
             _context.Entry(group).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

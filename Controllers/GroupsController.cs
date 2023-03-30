@@ -128,9 +128,18 @@ namespace AlumniNetworkAPI.Controllers
         [HttpPost("{id}/join")]
         public async Task<ActionResult> JoinGroup(int id, int userId)
         {
-            await _groupService.AddUserToGroup(id, userId);
+            try
+            {
+                await _groupService.AddUserToGroup(id, userId);
 
-            return CreatedAtAction("JoinGroup", id);
+                return CreatedAtAction("JoinGroup", id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
         [HttpPatch("{id}/leave")]

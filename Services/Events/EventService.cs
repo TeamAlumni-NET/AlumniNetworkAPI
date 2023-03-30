@@ -1,6 +1,5 @@
 ﻿using AlumniNetworkAPI.Exceptions;
 using AlumniNetworkAPI.Models;
-using AlumniNetworkAPI.Models.DTOs.EventUserDtos;
 using AlumniNetworkAPI.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -106,7 +105,16 @@ namespace AlumniNetworkAPI.Services.Events
         {
             await _dbContext.Events.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
-            return entity;
+
+
+            var newEvent = await _dbContext.Events
+                .Include(e => e.EventUsers)
+                .Include(e => e.Groups)
+                .Include(e => e.Topics)
+                .Where(e => e.Id == entity.Id)
+                .FirstOrDefaultAsync();
+
+            return newEvent;
         }
 
         public async Task DeleteById(int id)
@@ -141,7 +149,7 @@ namespace AlumniNetworkAPI.Services.Events
             var eventT = await _dbContext.Events.Include(x => x.EventUsers).Where(x => x.Id == eventId).FirstOrDefaultAsync();
             var user = await _dbContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
-            var userEvent = new EventUser { EventId = eventId, UserId = userId};
+            var userEvent = new EventUser { EventId = eventId, UserId = userId };
 
             eventT.EventUsers.Add(userEvent);
 
