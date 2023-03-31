@@ -151,7 +151,7 @@ with a RESTful API to allow users to manipulate the data.
 ```
 ## API Documentation
 
-[@API Documentation](/API Documentation.pdf)
+[@API Documentation](/APIDocumentation.pdf)
 
 ## Authors
 [@Marco A](https://github.com/DeferredMonk)
