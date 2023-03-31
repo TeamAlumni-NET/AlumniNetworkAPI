@@ -149,6 +149,9 @@ with a RESTful API to allow users to manipulate the data.
             IUserService.cs
             UserService.cs
 ```
+## API Documentation
+
+[@API Documentation](/API_Documentation.pdf)
 
 ## Authors
 [@Marco A](https://github.com/DeferredMonk)
